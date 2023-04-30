@@ -16,6 +16,3 @@ These commands will run the the server with the current build in the client dire
 ```bash
 npm run build
 ```
-
-## Connecting to database
-The go server will probably fail if 
