@@ -18,7 +18,7 @@ const (
 	dbname   = "axelkanne"
 )
 
-func main() {
+func connect2db() {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
@@ -39,28 +39,34 @@ func main() {
 	var y string
 	row.Scan(&t, &y)
 	fmt.Println(t, y)
-	
-	fmt.Println("Successfully connected!")
-	// Tell go to check the "static directory", it already knowns to look at the "index.html" file, thats what servers do
-	// fileServer := http.FileServer(http.Dir("./my-project/dist"))
+	fmt.Println("Successfully connected to database!")
+}
 
-	// Send that to the fileServer function
-	//http.Handle("/", fileServer)
-
+func serveStaticFiles(port int) {
 	r := gin.Default()
-	//router.Static("/files", "./assets")
-	r.StaticFS("/www", http.Dir("my-project/dist"))
+	r.StaticFS("/", http.Dir("my-project/dist"))
+	r.Run(fmt.Sprintf(":%d", port))
+	fmt.Println("Serving static files at port:", port)
+}
+
+func createApiRoutes(port int) {
+	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", "*")
 		c.JSON(http.StatusOK, gin.H{
 			"message": fmt.Sprintf("pong %d", rand.Int63()),
 		})
-		log.Printf("Ping api was called")
+		log.Printf("Ping api was called\n")
 	})
-	fmt.Println("Starting server at port 8080")
-	r.Run()
+	// config := cors.Default()
+  	//r.Use(cors.Default())
+	r.Run(fmt.Sprintf(":%d", port))
+	fmt.Println("Created api routes at port:", port)
+}
 
-	// // This creates the server
-	// if err := http.ListenAndServe(":8080", nil); err != nil {
-	// 	log.Fatal(err)
-	// }
+
+func main() {
+	connect2db()
+	go serveStaticFiles(8080)
+	createApiRoutes(8088)
 }

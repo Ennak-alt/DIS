@@ -29,7 +29,7 @@ export default function Home() {
   // }, [])
 
   const pong = () => {
-    fetch('http://localhost:8080/ping/')
+    fetch('http://localhost:8088/ping')
       .then((res) => {
         return res.json()
       })
