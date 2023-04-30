@@ -24,13 +24,14 @@ func connect2db() {
 		host, port, user, password, dbname)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
-		panic(err)
-	}
+		fmt.Println("Could not connect to the database!")
+		return
+	} 
 	defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
-		panic(err)
+		fmt.Println("Could not ping the database!")
 	}
 
 	sqlStatement := `SELECT * FROM teaches`
@@ -44,7 +45,7 @@ func connect2db() {
 
 func serveStaticFiles(port int) {
 	r := gin.Default()
-	r.StaticFS("/", http.Dir("my-project/dist"))
+	r.StaticFS("/", http.Dir("client/dist"))
 	r.Run(fmt.Sprintf(":%d", port))
 	fmt.Println("Serving static files at port:", port)
 }
@@ -58,8 +59,6 @@ func createApiRoutes(port int) {
 		})
 		log.Printf("Ping api was called\n")
 	})
-	// config := cors.Default()
-  	//r.Use(cors.Default())
 	r.Run(fmt.Sprintf(":%d", port))
 	fmt.Println("Created api routes at port:", port)
 }
