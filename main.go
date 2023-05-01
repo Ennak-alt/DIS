@@ -32,6 +32,7 @@ func connect2db() {
 	err = db.Ping()
 	if err != nil {
 		fmt.Println("Could not ping the database!")
+		return 
 	}
 
 	sqlStatement := `SELECT * FROM teaches`
