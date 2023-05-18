@@ -3,6 +3,9 @@ package config
 import (
 	"database/sql"
 	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -43,16 +46,27 @@ func ConnectDB() {
 	} else {
 		fmt.Println("It was pinged!")
 	}
+}
 
-	/*
-		sqlStatement := `SELECT * FROM teaches`
-		row := db.QueryRow(sqlStatement)
-		var t string
-		var y string
-		row.Scan(&t, &y)
-		fmt.Println(t, y)
-		fmt.Println("Successfully connected to database!")
-	*/
+func SetupDB() {
+	b, err := os.ReadFile("./server/config/load.sql")
+    if err != nil {
+        fmt.Print(err)
+    }
+	str := string(b)
+
+	ex, _ := filepath.Abs("./server/config/cars.csv")
+	str2 := "'" + filepath.Dir(ex) + "/cars.csv" + "'"
+
+	str = strings.Replace(str, "carsfile", str2, 1)
+	fmt.Println(str)
+	_, err = db.Exec(str)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(str, str2)
 }
 
 func GetDB() *sql.DB {
