@@ -16,3 +16,16 @@ These commands will run the the server with the current build in the client dire
 ```bash
 npm run build
 ```
+
+## TODO
+- [] Set up database 
+    - [] Loading csv-files
+    - [] Get pictures for cars
+- [] Set up serverside
+    - [] Route-file
+    - [] Model-file
+    - [] (Connection-file)
+- [] Set up clientside
+    - [] Posts page
+        - [] Get a number of car posts at a time
+        - [] Get specific car
