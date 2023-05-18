@@ -36,10 +36,29 @@ func getPost(c *gin.Context) {
 	db := config.GetDB()
 
 	var post models.Post
-	sqlStatement := `SELECT idx, region FROM post WHERE id=$1;`
-	err := db.QueryRow(sqlStatement, id).Scan(
+	sqlStatement2 := `SELECT idx, id, region, price, caryear, manufacturer, model, condition, cylinders, fuel, odometer, transmission, VIN, drive, size, cartype, paint_color, cardescription, county, carstate, posting_date FROM post WHERE id=$1;`
+	err := db.QueryRow(sqlStatement2, id).Scan(
 		&post.Idx,
-		&post.Region)
+		&post.Id,
+		&post.Region,
+		&post.Price,
+		&post.Caryear,
+		&post.Manufacturer,
+		&post.Model,
+		&post.Condition,
+		&post.Cylinders,
+		&post.Fuel,
+		&post.Odometer,
+		&post.Transmission,
+		&post.VIN,
+		&post.Drive,
+		&post.Size,
+		&post.Cartype,
+		&post.Paint_color,
+		&post.Cardescription,
+		&post.County,
+		&post.Carstate,
+		&post.Posting_date)
 
 	if err != nil {
 		panic(err)
