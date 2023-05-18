@@ -29,3 +29,4 @@ npm run build
     - [] Posts page
         - [] Get a number of car posts at a time
         - [] Get specific car
+- [] Remove all panics
