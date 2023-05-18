@@ -66,7 +66,7 @@ func SetupDB() {
 		panic(err)
 	}
 
-	fmt.Println(str, str2)
+	fmt.Println("Succefully setup database!")
 }
 
 func GetDB() *sql.DB {
