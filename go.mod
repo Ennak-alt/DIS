@@ -1,4 +1,4 @@
-module go-next
+module github.com/Ennak-alt/DIS
 
 go 1.20
 

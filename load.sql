@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS Post;
+DROP TABLE IF EXISTS post;
 
-CREATE TABLE Post (
+CREATE TABLE post (
     idx INT,
     id VARCHAR(50),
     region VARCHAR(50),
@@ -24,6 +24,6 @@ CREATE TABLE Post (
     posting_date VARCHAR(50)
 );
 
-COPY Post FROM '/Users/axelkanne/Documents/Go/go-next/cars.csv' DELIMITER ';';
+COPY post FROM '/Users/svantegeisshirt/Documents/KU/AMS/DIS/cars.csv' DELIMITER ';';
 
-select * from Post limit 1
+select * from post limit 1
