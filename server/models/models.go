@@ -21,5 +21,5 @@ type Post struct {
 	Cardescription string `json:"cardescription"`
 	County         string `json:"county"`
 	Carstate       string `json:"carstate"`
-	Posting_date   string `json:"posting_date`
+	Posting_date   string `json:"posting_date"`
 }
