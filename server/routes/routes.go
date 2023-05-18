@@ -5,8 +5,6 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
-	_ "strconv"
-
 	"github.com/Ennak-alt/DIS/server/config"
 	"github.com/Ennak-alt/DIS/server/models"
 	"github.com/gin-gonic/gin"
@@ -53,7 +51,6 @@ func getPosts(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	
 	db := config.GetDB()
-
 
 	number := c.Query("number")
 
