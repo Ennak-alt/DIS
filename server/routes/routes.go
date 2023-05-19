@@ -67,7 +67,7 @@ func getPost(c *gin.Context) {
 }
 
 func getPosts(c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-db", "*")
 	
 	db := config.GetDB()
 
