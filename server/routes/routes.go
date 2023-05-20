@@ -18,7 +18,7 @@ func CreateApiRoutes(port int) {
 	r.GET("/ping", getPing)
 	r.GET("/post/:id", getPost)
 	r.GET("/post", getPosts)
-	r.GET("/alike_post/:id", getAlikePosts)
+	r.GET("/alike_post/:car_type", getAlikePosts)
 
 	r.Run(fmt.Sprintf(":%d", port))
 	fmt.Println("Created api routes at port:", port)
@@ -68,15 +68,17 @@ func getPost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
-// Should return the first 10.
+// LIMIT is not working?
+// SQL query works in terminal: select id from post where cartype = 'pickup' limit 3;
+// Should match other things e.g. color or price.
 func getAlikePosts(c *gin.Context) {
-	id := c.Param("id")
+	car_type := c.Param("car_type")
 	c.Header("Access-Control-Allow-Origin", "*")
 	db := config.GetDB()
 
 	var alike_post models.Post
-	sql := `SELECT id FROM post WHERE cartype=$1;`
-	err := db.QueryRow(sql, id).Scan(&alike_post.Id)
+	sql := `SELECT id FROM post WHERE cartype=$1 LIMIT 10;`
+	err := db.QueryRow(sql, car_type).Scan(&alike_post.Id)
 
 	if err != nil {
 		panic(err)
