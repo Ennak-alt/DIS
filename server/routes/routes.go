@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+
 	"github.com/Ennak-alt/DIS/server/config"
 	"github.com/Ennak-alt/DIS/server/models"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,7 @@ func CreateApiRoutes(port int) {
 	r.GET("/ping", getPing)
 	r.GET("/post/:id", getPost)
 	r.GET("/post", getPosts)
+	r.GET("/alike_post/:id", getAlikePosts)
 
 	r.Run(fmt.Sprintf(":%d", port))
 	fmt.Println("Created api routes at port:", port)
@@ -66,9 +68,25 @@ func getPost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
+// Should return the first 10.
+func getAlikePosts(c *gin.Context) {
+	id := c.Param("id")
+	c.Header("Access-Control-Allow-Origin", "*")
+	db := config.GetDB()
+
+	var alike_post models.Post
+	sql := `SELECT id FROM post WHERE cartype=$1;`
+	err := db.QueryRow(sql, id).Scan(&alike_post.Id)
+
+	if err != nil {
+		panic(err)
+	}
+	c.JSON(http.StatusOK, alike_post)
+}
+
 func getPosts(c *gin.Context) {
 	c.Header("Access-Control-Allow-db", "*")
-	
+
 	db := config.GetDB()
 
 	number := c.Query("number")
@@ -87,13 +105,13 @@ func getPosts(c *gin.Context) {
 	for rows.Next() {
 		var post models.Post
 		err = rows.Scan(
-			&post.Idx, 
-			&post.Id, 
-			&post.Region, 
-			&post.Price, 
-			&post.Manufacturer, 
+			&post.Idx,
+			&post.Id,
+			&post.Region,
+			&post.Price,
+			&post.Manufacturer,
 			&post.Model,
-		)	
+		)
 
 		if err != nil {
 			panic(err)
