@@ -68,22 +68,31 @@ func getPost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
-// LIMIT is not working?
-// SQL query works in terminal: select id from post where cartype = 'pickup' limit 3;
-// Should match other things e.g. color or price.
+// TODO: Should match other things e.g. color or price.
 func getAlikePosts(c *gin.Context) {
 	car_type := c.Param("car_type")
 	c.Header("Access-Control-Allow-Origin", "*")
 	db := config.GetDB()
 
-	var alike_post models.Post
+	//var alike_post models.Post
 	sql := `SELECT id FROM post WHERE cartype=$1 LIMIT 10;`
-	err := db.QueryRow(sql, car_type).Scan(&alike_post.Id)
+	rows, err := db.Query(sql, car_type)
 
+	posts := make([]models.Post, 0)
+	
 	if err != nil {
 		panic(err)
 	}
-	c.JSON(http.StatusOK, alike_post)
+
+	for rows.Next() {
+	    var post models.Post
+	    err = rows.Scan(&post.Id)
+	    if err != nil {
+		panic(err)
+	    }
+		posts = append(posts, post)
+	}	
+	c.JSON(http.StatusOK, posts)
 }
 
 func getPosts(c *gin.Context) {
