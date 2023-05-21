@@ -81,7 +81,7 @@ func getAlikePosts(c *gin.Context) {
 	posts := make([]models.Post, 0)
 	
 	if err != nil {
-		panic(err)
+            panic(err)
 	}
 
 	for rows.Next() {
@@ -90,7 +90,7 @@ func getAlikePosts(c *gin.Context) {
 	    if err != nil {
 		panic(err)
 	    }
-		posts = append(posts, post)
+	    posts = append(posts, post)
 	}	
 	c.JSON(http.StatusOK, posts)
 }
