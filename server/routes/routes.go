@@ -69,6 +69,7 @@ func getPost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
+// Dont recommend the same car.
 func getAlikePosts(c *gin.Context) {
 	car_type := c.Query("car_type", )
 	paint_color := c.Query("paint_color")
@@ -79,9 +80,8 @@ func getAlikePosts(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	db := config.GetDB()
 
-	sql := `SELECT id, price FROM post WHERE cartype=$1 AND paint_color=$2 AND price BETWEEN 0 AND $3 LIMIT 10;`
+	sql := `SELECT id, price, manufacturer, model, cartype, paint_color, odometer FROM post WHERE cartype=$1 AND paint_color=$2 AND price BETWEEN 0 AND $3 LIMIT 5;`
 	rows, err := db.Query(sql, car_type, paint_color, price)
-
 	posts := make([]models.Post, 0)
 	
 	if err != nil {
@@ -91,9 +91,13 @@ func getAlikePosts(c *gin.Context) {
 	for rows.Next() {
 	    var post models.Post
 	    err = rows.Scan(
-	        &post.Id,
+		&post.Id,
 		&post.Price,
-	    )
+		&post.Manufacturer,
+		&post.Model,
+		&post.Cartype,
+		&post.Paint_color,
+	        &post.Odometer)
 	    if err != nil {
 		panic(err)
 	    }
