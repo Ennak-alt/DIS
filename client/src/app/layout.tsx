@@ -38,7 +38,7 @@ export default function RootLayout({
             </Navbar.Link>
           </Navbar.Collapse>
         </Navbar>
-        <div className="flex justify-center">
+        <div className="">
           {children}
         </div>
       </body>

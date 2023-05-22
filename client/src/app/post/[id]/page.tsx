@@ -2,21 +2,28 @@
 import Alike from "./alike";
 import Single from "./single"
 import React, { useState, useEffect } from 'react';
+import CarService, {DefaultCar} from "@/app/api/hello/carService";
 
 export default function Page({ params, searchParams }) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({car: DefaultCar, alike: [DefaultCar]});
+  const {car, alike} = data;
   useEffect(() => {
-      fetch('http://localhost:8088/post/' + params.id)
-        .then(response => response.json())
-        .then(json => setData(json))
-        .catch(error => console.error(error));
+      try {
+      const car = CarService.GetPost(params.id).then(car => {
+        CarService.GetAlike(car).then(alike => {
+          setData({car, alike});
+        });
+      });
+    } catch (e) {
+      console.log(e)
+    }
     }, []);
 
   return(
     <div>
-      <Single car={data}></Single>
+      <Single car={data.car}></Single>
       <hr />
-      <Alike car={data}></Alike>
+      <Alike cars={data.alike}></Alike>
     </div>
   )
 }
