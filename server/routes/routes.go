@@ -2,6 +2,7 @@ package routes
 
 import (
 	"fmt"
+	"strconv"
 	"log"
 	"math/rand"
 	"net/http"
@@ -68,18 +69,18 @@ func getPost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
-// TODO: Should match other things e.g. color or price.
 func getAlikePosts(c *gin.Context) {
 	car_type := c.Query("car_type", )
 	paint_color := c.Query("paint_color")
+	Qprice := c.Query("price")
+	price, err := strconv.Atoi(Qprice)
+	price += 10000
 	
-	fmt.Println(car_type)
 	c.Header("Access-Control-Allow-Origin", "*")
 	db := config.GetDB()
 
-	//var alike_post models.Post
-	sql := `SELECT id FROM post WHERE cartype=$1 AND paint_color=$2 LIMIT 10;`
-	rows, err := db.Query(sql, car_type, paint_color)
+	sql := `SELECT id, price FROM post WHERE cartype=$1 AND paint_color=$2 AND price BETWEEN 0 AND $3 LIMIT 10;`
+	rows, err := db.Query(sql, car_type, paint_color, price)
 
 	posts := make([]models.Post, 0)
 	
@@ -89,7 +90,10 @@ func getAlikePosts(c *gin.Context) {
 
 	for rows.Next() {
 	    var post models.Post
-	    err = rows.Scan(&post.Id)
+	    err = rows.Scan(
+	        &post.Id,
+		&post.Price,
+	    )
 	    if err != nil {
 		panic(err)
 	    }
