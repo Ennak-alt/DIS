@@ -18,7 +18,7 @@ func CreateApiRoutes(port int) {
 	r.GET("/ping", getPing)
 	r.GET("/post/:id", getPost)
 	r.GET("/post", getPosts)
-	r.GET("/alike_post/:car_type", getAlikePosts)
+	r.GET("/alike_post", getAlikePosts)
 
 	r.Run(fmt.Sprintf(":%d", port))
 	fmt.Println("Created api routes at port:", port)
@@ -70,13 +70,16 @@ func getPost(c *gin.Context) {
 
 // TODO: Should match other things e.g. color or price.
 func getAlikePosts(c *gin.Context) {
-	car_type := c.Param("car_type")
+	car_type := c.Query("car_type", )
+	paint_color := c.Query("paint_color")
+	
+	fmt.Println(car_type)
 	c.Header("Access-Control-Allow-Origin", "*")
 	db := config.GetDB()
 
 	//var alike_post models.Post
-	sql := `SELECT id FROM post WHERE cartype=$1 LIMIT 10;`
-	rows, err := db.Query(sql, car_type)
+	sql := `SELECT id FROM post WHERE cartype=$1 AND paint_color=$2 LIMIT 10;`
+	rows, err := db.Query(sql, car_type, paint_color)
 
 	posts := make([]models.Post, 0)
 	
