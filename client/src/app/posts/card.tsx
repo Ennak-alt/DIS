@@ -4,7 +4,7 @@ import { Car } from "../api/hello/carService"
 
 export function Card(props: {car: Car}) {
     return (
-        <Link href ={`/post/${props.car.id}`}>
+        <Link href ={`/posts/${props.car.id}`}>
             <div className='px-5'>
             <Image
                 width={500}
