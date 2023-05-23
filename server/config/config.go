@@ -26,11 +26,13 @@ func ConnectDB() {
 		viper.Get("DB_HOST"), viper.Get("DB_PORT"), viper.Get("DB_NAME"),
 		viper.Get("DB_USERNAME"), viper.Get("DB_PASSWORD"))
 
-	db, err := sql.Open("postgres", psqlInfo)
+	d, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		fmt.Println("Could not connect to the database!")
 		return
 	}
+
+	db = d
 
 	// defer db.Close() Maybe ?
 

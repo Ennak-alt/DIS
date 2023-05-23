@@ -1,12 +1,13 @@
 package controllers
 
 import (
-	"fmt"
+	_ "fmt"
 	"strconv"
 	"net/http"
 
 	"github.com/Ennak-alt/DIS/server/config"
 	"github.com/Ennak-alt/DIS/server/models"
+	"github.com/Ennak-alt/DIS/server/repositories"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
@@ -87,41 +88,23 @@ func GetAlikePosts(c *gin.Context) {
 func GetPosts(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 
-	db := config.GetDB()
+	idxStr := c.DefaultQuery("idx", "none")
 
-	number := c.Query("number")
+	idx := -1
 
-	fmt.Println(number)
-
-	sql := `SELECT idx, id, region, price, manufacturer, model FROM post LIMIT 10 OFFSET $1`
-	rows, err := db.Query(sql, number)
-
-	posts := make([]models.Post, 0)
-
-	if err != nil {
-		panic(err)
-	}
-
-	for rows.Next() {
-		var post models.Post
-		err = rows.Scan(
-			&post.Idx,
-			&post.Id,
-			&post.Region,
-			&post.Price,
-			&post.Manufacturer,
-			&post.Model,
-		)
-
+	if idxStr != "none" {
+		idxInt, err := strconv.Atoi(idxStr)
 		if err != nil {
-			panic(err)
+			c.JSON(http.StatusBadRequest, "Parameter idx is not valid")
+			return
 		}
-		posts = append(posts, post)
+		idx = idxInt
 	}
+	
+	posts, err :=  repositories.QueryPosts(idx) 
 
-	err = rows.Err()
 	if err != nil {
-		panic(err)
+		c.JSON(http.StatusNotFound, err)	
 	}
 
 	c.JSON(http.StatusOK, posts)
