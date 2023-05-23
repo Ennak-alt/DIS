@@ -48,49 +48,6 @@ func GetPost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
-// Dont recommend the same car.
-// func GetRecommendedPosts(c *gin.Context) {
-// 	var post models.Post
-// 	post.car_type := c.DefaultQuery("car_type", "none")
-// 	post.paint_color := c.DefaultQuery("paint_color", "none")
-// 	price := c.DefaultQuery("price", "-1")
-// 	Qprice, err := strconv.Atoi(price)
-
-// 	if err != nil {
-// 		c.JSON(http.StatusBadRequest, "Price could not be converted to int.")
-// 	}
-
-// 	post.price := Qprice + 10000
-
-// 	c.Header("Access-Control-Allow-Origin", "*")
-// 	db := config.GetDB()
-
-// 	sql := `SELECT id, price, manufacturer, model, cartype, paint_color, odometer FROM post WHERE cartype=$1 AND paint_color=$2 AND price BETWEEN 0 AND $3 LIMIT 5;`
-// 	rows, err := db.Query(sql, car_type, paint_color, Qprice)
-// 	posts := make([]models.Post, 0)
-
-// 	if err != nil {
-// 		panic(err)
-// 	}
-
-// 	for rows.Next() {
-// 		var post models.Post
-// 		err = rows.Scan(
-// 			&post.Id,
-// 			&post.Price,
-// 			&post.Manufacturer,
-// 			&post.Model,
-// 			&post.Cartype,
-// 			&post.Paint_color,
-// 			&post.Odometer)
-// 		if err != nil {
-// 			panic(err)
-// 		}
-// 		posts = append(posts, post)
-// 	}
-// 	c.JSON(http.StatusOK, posts)
-// }
-
 func GetPosts(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 
@@ -98,17 +55,20 @@ func GetPosts(c *gin.Context) {
 	post.Id = c.DefaultPostForm("id", "")
 	post.Cartype = c.DefaultQuery("car_type", "")
 	post.Paint_color = c.DefaultQuery("paint_color", "")
-	// price := c.DefaultQuery("price", "-1")
-	// Qprice, err := strconv.Atoi(price)
+	var price = c.DefaultQuery("price", "-1")
 
-	// if err != nil {
-	// 	c.JSON(http.StatusBadRequest, "Price could not be converted to int.")
-	// }
+	var err1 error
+	post.Price, err1 = strconv.Atoi(price)
 
-	// post.price := Qprice + 1000
+	if post.Price != -1 {
+		post.Price += 10000
+	}
+
+	if err1 != nil {
+		c.JSON(http.StatusBadRequest, "Price could not be converted to int.")
+	}
 
 	idxStr := c.DefaultQuery("idx", "")
-
 	idx := -1
 
 	if idxStr != "" {

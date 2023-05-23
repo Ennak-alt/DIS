@@ -36,9 +36,12 @@ func constructQuery(number int, post models.Post) (string, []any) {
 		queryArguments = append(queryArguments, post.Paint_color)
 	}
 
-	// if post.Price != -1 {
-	// 	queryString += "AND paint_color != $" + strconv.Itoa(number)
-	// }
+	if post.Price != -1 {
+		queryString += " AND price BETWEEN 0 AND $" + strconv.Itoa(number)
+		number += 1
+		queryArguments = append(queryArguments, post.Price)
+	}
+
 	return queryString, queryArguments
 }
 
@@ -61,7 +64,7 @@ func QueryPosts(idx int, post models.Post) ([]models.Post, error) {
 				LIMIT 10`
 			rows, err = db.Query(sql)
 		} else {
-			sql := 
+			sql :=
 				fmt.Sprintf(
 					`SELECT *
 					FROM post
@@ -74,7 +77,7 @@ func QueryPosts(idx int, post models.Post) ([]models.Post, error) {
 			fmt.Println(queryParams)
 			rows, err = db.Query(sql, queryParams...)
 		}
-		
+
 	} else {
 		queryString, queryParams := constructQuery(2, post)
 		sql :=
@@ -83,7 +86,7 @@ func QueryPosts(idx int, post models.Post) ([]models.Post, error) {
 				FROM post
 				WHERE idx < $1 %s
 				ORDER BY idx DESC
-				LIMIT 10`, 
+				LIMIT 10`,
 				queryString,
 			)
 		queryParams = append([]any{idx}, queryParams...)
