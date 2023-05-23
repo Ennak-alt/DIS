@@ -18,7 +18,7 @@ func CreateApiRoutes(port int) {
 	{
 		pr.GET("/", controllers.GetPosts)
 		pr.GET("/:id", controllers.GetPost)
-		pr.GET("/alike_post", controllers.GetRecommendedPosts)
+		//pr.GET("/alike_post", controllers.GetRecommendedPosts)
 	}
 
 	r.GET("/ping", getPing)
