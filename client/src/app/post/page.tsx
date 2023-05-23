@@ -21,8 +21,7 @@ export default function Page({ params, searchParams }) {
         <div className='flex gap-7 justify-around'>
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
                 {cars.length === 0 ? "hello" : cars.map((car) => <Card car={car} />)}
-
             </div>
         </div>
     )
-} 
+}

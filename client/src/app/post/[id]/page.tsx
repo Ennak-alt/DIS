@@ -18,7 +18,7 @@ export default function Page({ params, searchParams }) {
     <div>
       <Post car={data.car}></Post>
       <hr />
-      <h1>Recommnended cars:</h1>
+      <p className="text-lg font-bold relative mx-auto max-w-screen-xl px-24 pt-8 pb-2">Recommnended cars:</p>
       <Recommended cars={data.rec}></Recommended>
     </div>
   )

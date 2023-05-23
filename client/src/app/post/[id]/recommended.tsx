@@ -1,6 +1,4 @@
 import {Car} from "@/app/api/hello/carService";
-import Image from 'next/image'
-import Link from 'next/link';
 import { Card } from "../card";
 
 export default function Alike(props: {cars: Car[]}) {
@@ -10,8 +8,10 @@ export default function Alike(props: {cars: Car[]}) {
     }
 
     return (
-        <div className="flex flex-wrap">
+        <div className='flex gap-7 justify-around'>
+            <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
             {cards}
+            </div>
         </div>
     )
 }
