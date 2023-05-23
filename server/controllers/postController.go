@@ -95,17 +95,17 @@ func GetPosts(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 
 	var post models.Post
-	post.Id := c.DefaultPostForm("id", "")
-	post.CarType := c.DefaultQuery("car_type", "")
-	post.PaintColor := c.DefaultQuery("paint_color", "")
-	price := c.DefaultQuery("price", "-1")
-	Qprice, err := strconv.Atoi(price)
+	post.Id = c.DefaultPostForm("id", "")
+	post.Cartype = c.DefaultQuery("car_type", "")
+	post.Paint_color = c.DefaultQuery("paint_color", "")
+	// price := c.DefaultQuery("price", "-1")
+	// Qprice, err := strconv.Atoi(price)
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, "Price could not be converted to int.")
-	}
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, "Price could not be converted to int.")
+	// }
 
-	post.price := Qprice + 1000
+	// post.price := Qprice + 1000
 
 	idxStr := c.DefaultQuery("idx", "")
 
@@ -120,7 +120,7 @@ func GetPosts(c *gin.Context) {
 		idx = idxInt
 	}
 
-	posts, err := repositories.QueryPosts(idx)
+	posts, err := repositories.QueryPosts(idx, post)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, "Something went wrong when retrieving")

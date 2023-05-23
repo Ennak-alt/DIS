@@ -14,24 +14,24 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func createWhere(number int, post models.Post) (string, []string) {
+func constructQuery(number int, post models.Post) (string, []any) {
 	queryString := ""
-	queryArguments := make([]string, 0)
+	queryArguments := make([]any, 0)
 
 	if post.Id != "" {
-		queryString += "AND id != $" + strconv.Itoa(number)
+		queryString += " AND id != $" + strconv.Itoa(number)
 		number += 1
 		queryArguments = append(queryArguments, post.Id)
 	}
 
 	if post.Cartype != "" {
-		queryString += "AND car_type = $" + strconv.Itoa(number)
+		queryString += " AND cartype = $" + strconv.Itoa(number)
 		number += 1
 		queryArguments = append(queryArguments, post.Cartype)
 	}
 
 	if post.Paint_color != "" {
-		queryString += "AND paint_color != $" + strconv.Itoa(number)
+		queryString += " AND paint_color = $" + strconv.Itoa(number)
 		number += 1
 		queryArguments = append(queryArguments, post.Paint_color)
 	}
@@ -51,30 +51,54 @@ func QueryPosts(idx int, post models.Post) ([]models.Post, error) {
 	)
 
 	if idx == -1 {
-		sql :=
-			`SELECT *
-			FROM post
-			ORDER BY idx DESC
-			LIMIT 10`
-		rows, err = db.Query(sql, ...queryParams)
+		queryString, queryParams := constructQuery(1, post)
+		fmt.Println(queryString)
+		if queryString == "" {
+			sql :=
+				`SELECT *
+				FROM post
+				ORDER BY idx DESC
+				LIMIT 10`
+			rows, err = db.Query(sql)
+		} else {
+			sql := 
+				fmt.Sprintf(
+					`SELECT *
+					FROM post
+					WHERE %s
+					ORDER BY idx DESC
+					LIMIT 10`,
+					queryString[4:],
+				)
+			fmt.Println(sql)
+			fmt.Println(queryParams)
+			rows, err = db.Query(sql, queryParams...)
+		}
+		
 	} else {
-		(queryString, queryParams) := createWhere(1, pos)
+		queryString, queryParams := constructQuery(2, post)
 		sql :=
-			fmt.Sprint(
-			`SELECT *
-			FROM post
-			WHERE idx < $1 %s
-			ORDER BY idx DESC
-			LIMIT 10`, querString
+			fmt.Sprintf(
+				`SELECT *
+				FROM post
+				WHERE idx < $1 %s
+				ORDER BY idx DESC
+				LIMIT 10`, 
+				queryString,
 			)
-		rows, err = db.Query(sql, idx, ...queryParams)
+		queryParams = append([]any{idx}, queryParams...)
+		rows, err = db.Query(sql, queryParams...)
 	}
 
 	posts := make([]models.Post, 0)
 
+	fmt.Println("Going through rows1")
+
 	if err != nil {
 		return posts, err
 	}
+
+	fmt.Println("Going through rows2")
 
 	for rows.Next() {
 		var post models.Post
