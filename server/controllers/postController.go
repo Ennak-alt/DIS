@@ -49,50 +49,69 @@ func GetPost(c *gin.Context) {
 }
 
 // Dont recommend the same car.
-func GetAlikePosts(c *gin.Context) {
-	car_type := c.Query("car_type", )
-	paint_color := c.Query("paint_color")
-	Qprice := c.Query("price")
-	price, err := strconv.Atoi(Qprice)
-	price += 10000
-	
-	c.Header("Access-Control-Allow-Origin", "*")
-	db := config.GetDB()
+// func GetRecommendedPosts(c *gin.Context) {
+// 	var post models.Post
+// 	post.car_type := c.DefaultQuery("car_type", "none")
+// 	post.paint_color := c.DefaultQuery("paint_color", "none")
+// 	price := c.DefaultQuery("price", "-1")
+// 	Qprice, err := strconv.Atoi(price)
 
-	sql := `SELECT id, price, manufacturer, model, cartype, paint_color, odometer FROM post WHERE cartype=$1 AND paint_color=$2 AND price BETWEEN 0 AND $3 LIMIT 5;`
-	rows, err := db.Query(sql, car_type, paint_color, price)
-	posts := make([]models.Post, 0)
-	
-	if err != nil {
-            panic(err)
-	}
+// 	if err != nil {
+// 		c.JSON(http.StatusBadRequest, "Price could not be converted to int.")
+// 	}
 
-	for rows.Next() {
-	    var post models.Post
-	    err = rows.Scan(
-		&post.Id,
-		&post.Price,
-		&post.Manufacturer,
-		&post.Model,
-		&post.Cartype,
-		&post.Paint_color,
-	        &post.Odometer)
-	    if err != nil {
-		panic(err)
-	    }
-	    posts = append(posts, post)
-	}	
-	c.JSON(http.StatusOK, posts)
-}
+// 	post.price := Qprice + 10000
+
+// 	c.Header("Access-Control-Allow-Origin", "*")
+// 	db := config.GetDB()
+
+// 	sql := `SELECT id, price, manufacturer, model, cartype, paint_color, odometer FROM post WHERE cartype=$1 AND paint_color=$2 AND price BETWEEN 0 AND $3 LIMIT 5;`
+// 	rows, err := db.Query(sql, car_type, paint_color, Qprice)
+// 	posts := make([]models.Post, 0)
+
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+// 	for rows.Next() {
+// 		var post models.Post
+// 		err = rows.Scan(
+// 			&post.Id,
+// 			&post.Price,
+// 			&post.Manufacturer,
+// 			&post.Model,
+// 			&post.Cartype,
+// 			&post.Paint_color,
+// 			&post.Odometer)
+// 		if err != nil {
+// 			panic(err)
+// 		}
+// 		posts = append(posts, post)
+// 	}
+// 	c.JSON(http.StatusOK, posts)
+// }
 
 func GetPosts(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 
-	idxStr := c.DefaultQuery("idx", "none")
+	var post models.Post
+	post.Id := c.DefaultPostForm("id", "")
+	post.CarType := c.DefaultQuery("car_type", "")
+	post.PaintColor := c.DefaultQuery("paint_color", "")
+	price := c.DefaultQuery("price", "-1")
+	Qprice, err := strconv.Atoi(price)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, "Price could not be converted to int.")
+	}
+
+	post.price := Qprice + 1000
+
+	idxStr := c.DefaultQuery("idx", "")
 
 	idx := -1
 
-	if idxStr != "none" {
+	if idxStr != "" {
 		idxInt, err := strconv.Atoi(idxStr)
 		if err != nil || idxInt < 0 {
 			c.JSON(http.StatusBadRequest, "Parameter idx is not valid")
@@ -100,11 +119,11 @@ func GetPosts(c *gin.Context) {
 		}
 		idx = idxInt
 	}
-	
-	posts, err :=  repositories.QueryPosts(idx) 
+
+	posts, err := repositories.QueryPosts(idx)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, "Something went wrong when retrieving")	
+		c.JSON(http.StatusBadRequest, "Something went wrong when retrieving")
 	}
 
 	c.JSON(http.StatusOK, posts)

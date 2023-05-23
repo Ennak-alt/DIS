@@ -2,8 +2,10 @@ package repositories
 
 import (
 	"database/sql"
+	"fmt"
 	_ "fmt"
 	_ "net/http"
+	"strconv"
 	_ "strconv"
 
 	"github.com/Ennak-alt/DIS/server/config"
@@ -12,29 +14,60 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func QueryPosts(idx int) ([]models.Post, error) {
+func createWhere(number int, post models.Post) (string, []string) {
+	queryString := ""
+	queryArguments := make([]string, 0)
+
+	if post.Id != "" {
+		queryString += "AND id != $" + strconv.Itoa(number)
+		number += 1
+		queryArguments = append(queryArguments, post.Id)
+	}
+
+	if post.Cartype != "" {
+		queryString += "AND car_type = $" + strconv.Itoa(number)
+		number += 1
+		queryArguments = append(queryArguments, post.Cartype)
+	}
+
+	if post.Paint_color != "" {
+		queryString += "AND paint_color != $" + strconv.Itoa(number)
+		number += 1
+		queryArguments = append(queryArguments, post.Paint_color)
+	}
+
+	// if post.Price != -1 {
+	// 	queryString += "AND paint_color != $" + strconv.Itoa(number)
+	// }
+	return queryString, queryArguments
+}
+
+func QueryPosts(idx int, post models.Post) ([]models.Post, error) {
 	db := config.GetDB()
 
 	var (
 		rows *sql.Rows
-		err error
+		err  error
 	)
-	
+
 	if idx == -1 {
-		sql := 
-			`SELECT * 
-			FROM post  
+		sql :=
+			`SELECT *
+			FROM post
 			ORDER BY idx DESC
 			LIMIT 10`
-		rows, err = db.Query(sql)
+		rows, err = db.Query(sql, ...queryParams)
 	} else {
-		sql := 
-			`SELECT * 
-			FROM post 
-			WHERE idx < $1 
+		(queryString, queryParams) := createWhere(1, pos)
+		sql :=
+			fmt.Sprint(
+			`SELECT *
+			FROM post
+			WHERE idx < $1 %s
 			ORDER BY idx DESC
-			LIMIT 10`
-		rows, err = db.Query(sql, idx)
+			LIMIT 10`, querString
+			)
+		rows, err = db.Query(sql, idx, ...queryParams)
 	}
 
 	posts := make([]models.Post, 0)

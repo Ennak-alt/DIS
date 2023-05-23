@@ -14,11 +14,11 @@ import (
 func CreateApiRoutes(port int) {
 	r := gin.Default()
 
-	pr := r.Group("/posts") 
+	pr := r.Group("/posts")
 	{
 		pr.GET("/", controllers.GetPosts)
 		pr.GET("/:id", controllers.GetPost)
-		pr.GET("/alike_post", controllers.GetAlikePosts)
+		pr.GET("/alike_post", controllers.GetRecommendedPosts)
 	}
 
 	r.GET("/ping", getPing)
@@ -34,5 +34,3 @@ func getPing(c *gin.Context) {
 	})
 	log.Printf("Ping api was called\n")
 }
-
-
