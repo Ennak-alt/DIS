@@ -18,6 +18,7 @@ export default function Page({ params, searchParams }) {
     <div>
       <Post car={data.car}></Post>
       <hr />
+      <h1>Recommnended cars:</h1>
       <Recommended cars={data.rec}></Recommended>
     </div>
   )

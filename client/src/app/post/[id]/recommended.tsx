@@ -10,7 +10,7 @@ export default function Alike(props: {cars: Car[]}) {
     }
 
     return (
-        <div className="flex flex row">
+        <div className="flex flex-wrap">
             {cards}
         </div>
     )

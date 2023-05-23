@@ -6,7 +6,6 @@ export function Card(props: {car: Car}) {
     return (
         <Link href ={`/post/${props.car.id}`}>
             <div className='pr-10'>
-            <a href="#" className="block rounded-lg p-4 shadow-sm shadow-indigo-100">
             <Image
                 width={500}
                 height={500}
@@ -24,7 +23,7 @@ export function Card(props: {car: Car}) {
                     <dd className="text-sm text-gray-500">${props.car.price}</dd>
                 </div>
 
-                <div className="mt-6 flex items-center gap-8 text-xs">
+                <div className="mt-1 flex items-center gap-8 text-xs">
                     <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
                         <div className="mt-1.5 sm:mt-0">
                             <p className="text-gray-500 pr-10">Type</p>
@@ -47,8 +46,7 @@ export function Card(props: {car: Car}) {
                     </div>
                 </div>
             </div>
-            </a>
-        </div>
+            </div>
         </Link>
     )
 }
