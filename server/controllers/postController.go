@@ -2,8 +2,8 @@ package controllers
 
 import (
 	_ "fmt"
-	"strconv"
 	"net/http"
+	"strconv"
 
 	"github.com/Ennak-alt/DIS/server/config"
 	"github.com/Ennak-alt/DIS/server/models"
@@ -94,7 +94,7 @@ func GetPosts(c *gin.Context) {
 
 	if idxStr != "none" {
 		idxInt, err := strconv.Atoi(idxStr)
-		if err != nil {
+		if err != nil || idxInt < 0 {
 			c.JSON(http.StatusBadRequest, "Parameter idx is not valid")
 			return
 		}
@@ -104,7 +104,7 @@ func GetPosts(c *gin.Context) {
 	posts, err :=  repositories.QueryPosts(idx) 
 
 	if err != nil {
-		c.JSON(http.StatusNotFound, err)	
+		c.JSON(http.StatusBadRequest, "Something went wrong when retrieving")	
 	}
 
 	c.JSON(http.StatusOK, posts)

@@ -1,9 +1,10 @@
 package repositories
 
 import (
+	"database/sql"
 	_ "fmt"
-	_ "strconv"
 	_ "net/http"
+	_ "strconv"
 
 	"github.com/Ennak-alt/DIS/server/config"
 	"github.com/Ennak-alt/DIS/server/models"
@@ -14,20 +15,27 @@ import (
 func QueryPosts(idx int) ([]models.Post, error) {
 	db := config.GetDB()
 
-	sql := `SELECT * 
-			FROM idk 
-			WHERE idx < $1 
-			LIMIT 10 
-			SORT BY idx DSC`
+	var (
+		rows *sql.Rows
+		err error
+	)
+	
 	if idx == -1 {
-		sql = 
+		sql := 
+			`SELECT * 
+			FROM post  
+			ORDER BY idx DESC
+			LIMIT 10`
+		rows, err = db.Query(sql)
+	} else {
+		sql := 
 			`SELECT * 
 			FROM post 
-			LIMIT 10 
-			SORT BY idx DSC`
+			WHERE idx < $1 
+			ORDER BY idx DESC
+			LIMIT 10`
+		rows, err = db.Query(sql, idx)
 	}
-	
-	rows, err := db.Query(sql, idx)
 
 	posts := make([]models.Post, 0)
 
