@@ -26,15 +26,11 @@ func ConnectDB() {
 		viper.Get("DB_HOST"), viper.Get("DB_PORT"), viper.Get("DB_NAME"),
 		viper.Get("DB_USERNAME"), viper.Get("DB_PASSWORD"))
 
-	d, err := sql.Open("postgres", psqlInfo)
+	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		fmt.Println("Could not connect to the database!")
 		return
-	} else {
-		fmt.Println("Connected to database!")
 	}
-
-	db = d
 
 	// defer db.Close() Maybe ?
 
@@ -43,7 +39,7 @@ func ConnectDB() {
 		fmt.Println("Could not ping the database!")
 		return
 	} else {
-		fmt.Println("It was pinged!")
+		fmt.Println("Connected to database!")
 	}
 }
 
