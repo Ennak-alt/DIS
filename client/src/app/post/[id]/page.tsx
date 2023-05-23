@@ -15,7 +15,7 @@ export default function Page({ params, searchParams }) {
         });
       });
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
     }, []);
 

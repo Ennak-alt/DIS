@@ -23,17 +23,6 @@ export default function Alike(props: {cars: Car[]}) {
     )
 }
 
-// export function Card(props) {
-//     return (
-//     <div>
-//         <p>cartype: {props.cartype}</p>
-//         <p>color: {props.paint_color}</p>
-//         <p>price: {props.price}</p>
-//     </div>
-//     )
-// }
-
-
 export function Card(props) {
     return (
         <div className='pr-10'>
