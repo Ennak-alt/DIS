@@ -1,6 +1,6 @@
 "use client";
-import Alike from "./alike";
-import Single from "./single"
+import Recommended from "./recommended";
+import Post from "./post"
 import React, { useState, useEffect } from 'react';
 import CarService, {DefaultCar} from "@/app/api/hello/carService";
 
@@ -8,22 +8,18 @@ export default function Page({ params, searchParams }) {
   const [data, setData] = useState({car: DefaultCar, alike: [DefaultCar]});
   const {car, alike} = data;
   useEffect(() => {
-      try {
-      const car = CarService.GetPost(params.id).then(car => {
-        CarService.GetAlike(car).then(alike => {
-          setData({car, alike});
-        });
+    const car = CarService.GetPost(params.id).then(car => {
+      CarService.GetAlike(car).then(alike => {
+        setData({car, alike});
       });
-    } catch (e) {
-      //console.log(e)
-    }
-    }, []);
+    });
+  }, []);
 
   return(
     <div>
-      <Single car={data.car}></Single>
+      <Post car={data.car}></Post>
       <hr />
-      <Alike cars={data.alike}></Alike>
+      <Recommended cars={data.alike}></Recommended>
     </div>
   )
 }
