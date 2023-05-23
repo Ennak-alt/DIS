@@ -6,15 +6,7 @@ import { Card } from "../card";
 export default function Alike(props: {cars: Car[]}) {
     const cards = [];
     for(let c of props.cars) {
-        cards.push(<Card
-                    id = {c.id}
-                    cartype = {c.cartype}
-                    paint_color = {c.paint_color}
-                    price = {c.price}
-                    manufacturer = {c.manufacturer}
-                    model = {c.model}
-                    odometer = {c.odometer}
-                />)
+        cards.push(<Card car={c}/>)
     }
 
     return (
