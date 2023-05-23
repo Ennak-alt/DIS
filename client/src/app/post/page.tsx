@@ -9,21 +9,20 @@ export default function Page({ params, searchParams }) {
 
     useEffect(() => {
         fetch('http://localhost:8088/posts/')
-          .then(response => response.json())
-          .then(json => {
+            .then(response => response.json())
+            .then(json => {
                 setCars(json)
                 console.log(json)
             })
-          .catch(error => console.error(error));
-      }, [page]);
+            .catch(error => console.error(error));
+    }, [page]);
 
     return (
-        <div>
-        { cars.length === 0 ? "hello" : cars.map((car) => <Card car={car}/>)}
-        <button onClick={() => setPage(page+1)}>
-        Click me!
-        </button>
+        <div className='flex gap-7 justify-around'>
+            <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
+                {cars.length === 0 ? "hello" : cars.map((car) => <Card car={car} />)}
 
+            </div>
         </div>
     )
 } 
