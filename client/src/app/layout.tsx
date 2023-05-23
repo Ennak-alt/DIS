@@ -1,7 +1,6 @@
 'use client';
 
 import './globals.css'
-import { Metadata } from 'next';
 import Image from 'next/image';
 
 export default function RootLayout({
@@ -10,8 +9,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <div>
+    <html lang="en">
       <body className="">
         <header aria-label="Site Header" className="bg-white top-0 sticky z-50">
           <div
@@ -108,7 +106,6 @@ export default function RootLayout({
           {children}
         </div>
       </body>
-      </div>
-    </>
+    </html>
   )
 }
