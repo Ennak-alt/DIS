@@ -8,24 +8,23 @@ import (
 	"strings"
 
 	_ "github.com/lib/pq"
-)
-
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "ams"
-	dbname   = "postgres"
+	"github.com/spf13/viper"
 )
 
 var (
 	db *sql.DB
 )
 
+func ReadConfig() {
+	viper.SetConfigFile(".env")
+	viper.ReadInConfig()
+}
+
 func ConnectDB() {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+	psqlInfo := fmt.Sprintf("host=%s port=%s dbname=%s "+
+	    "user=%s password=%s sslmode=disable",
+		viper.Get("DB_HOST"), viper.Get("DB_PORT"), viper.Get("DB_NAME"),
+		viper.Get("DB_USERNAME"), viper.Get("DB_PASSWORD"))
 
 	d, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
