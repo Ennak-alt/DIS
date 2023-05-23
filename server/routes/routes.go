@@ -107,7 +107,7 @@ func getAlikePosts(c *gin.Context) {
 }
 
 func getPosts(c *gin.Context) {
-	c.Header("Access-Control-Allow-db", "*")
+	c.Header("Access-Control-Allow-Origin", "*")
 
 	db := config.GetDB()
 
