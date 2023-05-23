@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { Card } from './card';
 
 export default function Page({ params, searchParams }) {
     const [cars, setCars] = useState([])
