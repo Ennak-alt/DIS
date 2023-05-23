@@ -1,0 +1,13 @@
+# Dependencies
+node_modules
+
+# Build
+next-env.d.ts
+dist
+
+# Local config
+.env
+.vscode
+
+# Misc
+.DS_Store

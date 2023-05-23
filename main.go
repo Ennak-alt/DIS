@@ -18,6 +18,7 @@ func serveStaticFiles(port int) {
 }
 
 func main() {
+	config.ReadConfig()
 	config.ConnectDB()
 	config.SetupDB()
 	go serveStaticFiles(8080)
