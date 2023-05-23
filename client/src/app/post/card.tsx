@@ -5,7 +5,7 @@ import { Car } from "../api/hello/carService"
 export function Card(props: {car: Car}) {
     return (
         <Link href ={`/post/${props.car.id}`}>
-            <div className='pr-10'>
+            <div className='px-5'>
             <Image
                 width={500}
                 height={500}
