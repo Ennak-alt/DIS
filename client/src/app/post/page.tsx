@@ -1,13 +1,14 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Card } from './card';
+import { Car } from '../api/hello/carService';
 
 export default function Page({ params, searchParams }) {
-    const [cars, setCars] = useState([])
+    const [cars, setCars] = useState<Car[]>([])
     const [page, setPage] = useState(0)
 
     useEffect(() => {
-        fetch('http://localhost:8088/post?number=' + page*10)
+        fetch('http://localhost:8088/posts/')
           .then(response => response.json())
           .then(json => {
                 setCars(json)
@@ -18,7 +19,7 @@ export default function Page({ params, searchParams }) {
 
     return (
         <div>
-        { cars.length === 0 ? "hello" : cars.map((car) => <div>{car.idx}</div>)}
+        { cars.length === 0 ? "hello" : cars.map((car) => <Card car={car}/>)}
         <button onClick={() => setPage(page+1)}>
         Click me!
         </button>
