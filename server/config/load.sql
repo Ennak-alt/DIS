@@ -25,5 +25,3 @@ CREATE TABLE post (
 );
 
 COPY post FROM carsfile DELIMITER ';';
-
-select * from post limit 1

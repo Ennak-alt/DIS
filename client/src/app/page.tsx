@@ -43,6 +43,7 @@ export default function Home() {
 
   return (
     <div className="">
+
       <React.Fragment>
         <Table>
           <Table.Head>
@@ -98,6 +99,17 @@ export default function Home() {
           </Modal.Footer>
         </Modal>
       </React.Fragment>
+      <div className='grid grid-cols-3 gap-4'>
+        <div className='col-span-2'>1</div>
+        <div className='col-span-2'>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+
+      </div>
     </div>
 
   )
