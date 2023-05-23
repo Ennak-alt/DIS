@@ -5,12 +5,11 @@ import React, { useState, useEffect } from 'react';
 import CarService, {DefaultCar} from "@/app/api/hello/carService";
 
 export default function Page({ params, searchParams }) {
-  const [data, setData] = useState({car: DefaultCar, alike: [DefaultCar]});
-  const {car, alike} = data;
+  const [data, setData] = useState({car: DefaultCar, rec: [DefaultCar]});
   useEffect(() => {
     const car = CarService.GetPost(params.id).then(car => {
-      CarService.GetAlike(car).then(alike => {
-        setData({car, alike});
+      CarService.GetRecommended(car).then(rec => {
+        setData({car, rec});
       });
     });
   }, []);
@@ -19,7 +18,7 @@ export default function Page({ params, searchParams }) {
     <div>
       <Post car={data.car}></Post>
       <hr />
-      <Recommended cars={data.alike}></Recommended>
+      <Recommended cars={data.rec}></Recommended>
     </div>
   )
 }

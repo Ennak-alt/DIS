@@ -48,10 +48,10 @@ export interface Car {
 
   export default class CarService {
     public static async GetPost(id: number): Promise<Car> {
-      return await fetch("http://localhost:8088/post/" + id).then(res => res.json());
+      return await fetch("http://localhost:8088/posts/" + id).then(res => res.json());
     }
-    public static async GetAlike(car: Car): Promise<Car[]> {
-        return await fetch(`http://localhost:8088/alike_post?car_type=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}`)
+    public static async GetRecommended(car: Car): Promise<Car[]> {
+        return await fetch(`http://localhost:8088/posts/?car_type=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}`)
        .then(res => res.json());
     }
   }
