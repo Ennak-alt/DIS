@@ -36,8 +36,8 @@ export default function RootLayout({
                   </li>
 
                   <li>
-                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
-                      History
+                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts">
+                      Posts
                     </a>
                   </li>
 

@@ -24,4 +24,4 @@ export default function Page({ params, searchParams }) {
             </div>
         </div>
     )
-}
+} 
