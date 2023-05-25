@@ -1,5 +1,7 @@
 package models
 
+// TODO: Split to two files
+
 type Post struct {
 	Idx            int    `json:"idx"`
 	Id             string `json:"id"`
@@ -22,4 +24,24 @@ type Post struct {
 	County         string `json:"county"`
 	Carstate       string `json:"carstate"`
 	Posting_date   string `json:"posting_date"`
+	Seller_id      string `json:"seller_id"`
+}
+
+type User struct {
+	// User ID
+	UID            int64   `json:"uid"` // Snowflake
+
+	// Password
+	Password_salt  string  `json:"-"` // Salt
+	Password_hash  string  `json:"-"` // SHA-256 hash
+
+	// Contact info
+	First_name     string  `json:"fname"`
+	Last_name      string  `json:"lname"`
+	Email          string  `json:"email"`
+	Phone          string  `json:"phone"`
+	
+	// Meta
+	Rating         float32 `json:"rating"`
+	Num_ratings    uint32  `json:"numRatings"`
 }

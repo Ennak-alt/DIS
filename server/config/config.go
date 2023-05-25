@@ -56,7 +56,18 @@ func SetupDB() {
 	str2 := "'" + filepath.Dir(ex) + "/cars.csv" + "'"
 
 	str = strings.Replace(str, "carsfile", str2, 1)
+
+	ex_u, _ := filepath.Abs("./server/config/users.csv")
+	str2_u := "'" + filepath.Dir(ex_u) + "/users.csv" + "'"
+
+	str = strings.Replace(str, "usersfile", str2_u, 1)
+
+	ex_r, _ := filepath.Abs("./server/config/ratings.csv")
+	str2_r := "'" + filepath.Dir(ex_r) + "/ratings.csv" + "'"
+
+	str = strings.Replace(str, "ratingsfile", str2_r, 1)
 	fmt.Println(str)
+
 	_, err = db.Exec(str)
 
 	if err != nil {

@@ -18,7 +18,7 @@ func GetPost(c *gin.Context) {
 	db := config.GetDB()
 
 	var post models.Post
-	sqlStatement2 := `SELECT idx, id, region, price, caryear, manufacturer, model, condition, cylinders, fuel, odometer, transmission, VIN, drive, size, cartype, paint_color, cardescription, county, carstate, posting_date FROM post WHERE id=$1;`
+	sqlStatement2 := `SELECT idx, id, region, price, caryear, manufacturer, model, condition, cylinders, fuel, odometer, transmission, VIN, drive, size, cartype, paint_color, cardescription, county, carstate, posting_date, seller_id FROM post WHERE id=$1;`
 	err := db.QueryRow(sqlStatement2, id).Scan(
 		&post.Idx,
 		&post.Id,
@@ -40,7 +40,8 @@ func GetPost(c *gin.Context) {
 		&post.Cardescription,
 		&post.County,
 		&post.Carstate,
-		&post.Posting_date)
+		&post.Posting_date,
+	    &post.Seller_id)
 
 	if err != nil {
 		panic(err)
@@ -55,6 +56,7 @@ func GetPosts(c *gin.Context) {
 	post.Id = c.DefaultPostForm("id", "")
 	post.Cartype = c.DefaultQuery("car_type", "")
 	post.Paint_color = c.DefaultQuery("paint_color", "")
+	post.Seller_id = c.DefaultQuery("seller_id", "")
 	var price = c.DefaultQuery("price", "-1")
 
 	var err1 error

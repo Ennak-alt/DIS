@@ -42,6 +42,12 @@ func constructQuery(number int, post models.Post) (string, []any) {
 		queryArguments = append(queryArguments, post.Price)
 	}
 
+	if post.Seller_id != "" {
+		queryString += " AND seller_id = $" + strconv.Itoa(number)
+		number += 1
+		queryArguments = append(queryArguments, post.Seller_id)
+	}
+
 	return queryString, queryArguments
 }
 
@@ -126,7 +132,8 @@ func QueryPosts(idx int, post models.Post) ([]models.Post, error) {
 			&post.Cardescription,
 			&post.County,
 			&post.Carstate,
-			&post.Posting_date)
+			&post.Posting_date,
+			&post.Seller_id)
 
 		if err != nil {
 			return posts, err

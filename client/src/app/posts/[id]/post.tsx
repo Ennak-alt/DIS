@@ -1,8 +1,10 @@
 import {Car} from "@/app/api/hello/carService";
+import { UserData } from "@/app/api/hello/userService";
+import UserCard from "@/app/user/userCard";
 import Image from 'next/image'
 import React, {useState} from 'react';
 
-export default function Post (props: {car: Car}) {
+export default function Post (props: {car: Car, seller: UserData}) {
     return (
         <div>
             <section>
@@ -14,8 +16,8 @@ export default function Post (props: {car: Car}) {
                         height={100}
                         src={`/Cars/${props.car.cartype}.jpeg`}
                     />
-                    <div className="-ms-0.5 flex">
-                        !!SELLER INFO!!
+                    <div className="-ms-0.5 flex" style={{position: "relative"}}>
+                        <span style={{position: "absolute", left: "50%", transform: "translateX(-50%)"}}><UserCard {...props.seller} own={false} clickable={true}></UserCard></span>
                     </div>
                 </div>
                 <div className="sticky top-0">

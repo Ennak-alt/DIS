@@ -19,7 +19,8 @@ export interface Car {
     cardescription: string,
     county: string,
     carstate: string,
-    posting_date: string
+    posting_date: string,
+    seller_id: string,
   }
 
   export const DefaultCar: Car = {
@@ -43,7 +44,8 @@ export interface Car {
     cardescription: "N/A",
     county: "N/A",
     carstate: "N/A",
-    posting_date: "N/A"
+    posting_date: "N/A",
+    seller_id: "-1"
   }
 
   export default class CarService {
@@ -51,7 +53,7 @@ export interface Car {
       return await fetch("http://localhost:8088/posts/" + id).then(res => res.json());
     }
     public static async GetRecommended(car: Car): Promise<Car[]> {
-        return await fetch(`http://localhost:8088/posts/?car_type=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}`)
+        return await fetch(`http://localhost:8088/posts/?car_type=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}&seller_id=${car.seller_id}`)
        .then(res => res.json());
     }
   }
