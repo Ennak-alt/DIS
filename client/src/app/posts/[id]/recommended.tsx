@@ -1,4 +1,4 @@
-import {Car} from "@/app/api/hello/carService";
+import {Car} from "@/app/api/carService";
 import { Card } from "../card";
 
 export default function Alike(props: {cars: Car[]}) {

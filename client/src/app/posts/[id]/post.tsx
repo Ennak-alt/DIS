@@ -1,5 +1,5 @@
-import {Car} from "@/app/api/hello/carService";
-import { UserData } from "@/app/api/hello/userService";
+import {Car} from "@/app/api/carService";
+import { UserData } from "@/app/api/userService";
 import UserCard from "@/app/user/userCard";
 import Image from 'next/image'
 import React, {useState} from 'react';

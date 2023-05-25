@@ -1,10 +1,10 @@
 'use client';
 
 import Link from "next/link"
-import LoginService from "../api/hello/loginService"
+import LoginService from "../api/loginService"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import UserService from "../api/hello/userService";
+import UserService from "../api/userService";
 
 function ConditionalLink(props: {children: JSX.Element | JSX.Element[], href: string | null, onClick?: () => Promise<void>}) {
     if(props.href != null) {

@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from 'react';
-import LoginService from '../api/hello/loginService';
+import LoginService from '../api/loginService';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import Link from 'next/link';
 
 async function onSubmit(router: AppRouterInstance, event: React.FormEvent<HTMLFormElement>, setColor: (color: string) => void) {
     event.preventDefault()
@@ -24,7 +25,7 @@ export default function Page() {
 
     return (
         <section>
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-[calc(100vh-65px)] lg:py-0">
+            <div className="flex flex-col items-center px-6 py-8 mx-auto md:h-[calc(100vh-65px)] lg:py-0">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-black dark:text-black">
                     <img className="h-8 mr-2" src="/Logo.png" alt="logo" />
                     Berkild's Bimmer-Biks
@@ -56,7 +57,7 @@ export default function Page() {
                             </div>
                             <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Log ind</button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Har du ikke en konto endnu? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Registrer</a>
+                                Har du ikke en konto endnu? <Link href="/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Registrer</Link>
                             </p>
                         </form>
                     </div>

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"crypto/sha256"
 	"net/http"
+	"strings"
+	"math/rand"
 
 	"github.com/Ennak-alt/DIS/server/config"
 	"github.com/Ennak-alt/DIS/server/models"
@@ -97,6 +99,54 @@ func AddRating(c *gin.Context) {
 	} else {
 		c.String(http.StatusOK, "{\"success\":true}") // TODO
 	}
+}
+
+var charset = []byte("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz1234567890+-_.,:;!#%&/(){}[]=@$<>")
+func GenSalt() string {
+	salt := make([]byte, 32)
+	for i := 0; i < 32; i++ {
+        salt[i] = charset[rand.Intn(len(charset))]
+    }
+	return string(salt)
+}
+
+func Register(c *gin.Context) {
+	name     := c.PostForm("name")
+	email    := c.PostForm("email")
+	password := c.PostForm("password")
+
+	names := strings.Split(name, " ")
+	fname, lname := names[len(names)-1], strings.Join(names[:len(names)-1], " ")
+	pws := GenSalt()
+
+	hash := sha256.New()
+	hash.Write([]byte(password))
+	hash.Write([]byte(pws))
+	pwh := fmt.Sprintf("%x", hash.Sum(nil))
+
+	uid := config.GenerateSnowflake()
+
+	c.Header("Access-Control-Allow-Origin", "*")
+	db := config.GetDB()
+
+	// TODO: Sanitize
+	sqlStatement2 := `INSERT INTO users(uid, pws, pwh, fname, lname, email, phone) VALUES($1, $2, $3, $4, $5, $6, $7);`
+	_, err := db.Query(sqlStatement2, uid, pws, pwh, fname, lname, email, "0")
+
+	if err != nil {
+		c.String(http.StatusOK, "{\"success\":false}")
+		panic(err)
+	}
+	// TODO: Handle user not found
+	
+	var token = services.MakeSession(uid)
+	c.String(http.StatusOK,
+		fmt.Sprintf("{\"success\":true,\"uid\":\"%d\",\"name\":\"%s %s\",\"token\":\"%s\",\"expiresin\":%d}",
+			uid,
+			fname,
+			lname,
+			token.Token,
+			token.ExpiresIn));
 }
 
 func Login(c *gin.Context) {

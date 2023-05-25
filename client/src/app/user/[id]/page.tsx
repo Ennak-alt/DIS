@@ -1,10 +1,10 @@
 'use client';
 
-import UserService, { UserData } from "@/app/api/hello/userService"
+import UserService, { UserData } from "@/app/api/userService"
 import UserCard from "../userCard";
 import { useEffect, useState } from "react";
-import CarService, { Car } from "@/app/api/hello/carService";
-import { DefaultCar } from "@/app/api/hello/carService";
+import CarService, { Car } from "@/app/api/carService";
+import { DefaultCar } from "@/app/api/carService";
 import Recommended from "@/app/posts/[id]/recommended"
 
 export default function Page(params: {params: {id: string}, searchParams: any}) {

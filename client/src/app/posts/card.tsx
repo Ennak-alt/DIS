@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Car } from "../api/hello/carService"
+import { Car } from "../api/carService"
 
 export function Card(props: {car: Car}) {
     return (

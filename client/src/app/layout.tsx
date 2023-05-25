@@ -3,7 +3,7 @@
 import './globals.css'
 import Image from 'next/image';
 import UserCard from './user/userCard';
-import LoginService from './api/hello/loginService';
+import LoginService from './api/loginService';
 import Link from 'next/link';
 import NoSsr from './noSsr';
 
@@ -19,7 +19,7 @@ function CardOrLogin() {
                 <Link className="block rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700" href="/login">
                     Login
                 </Link>
-                <Link className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-blue-600 transition hover:text-teal-600/75 sm:block" href="/">
+                <Link className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-blue-600 transition hover:text-teal-600/75 sm:block" href="/register">
                     Register
                 </Link>
             </div>

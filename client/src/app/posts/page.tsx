@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Card } from './card';
-import { Car } from '../api/hello/carService';
+import { Car } from '../api/carService';
 
 export default function Page({ params, searchParams }) {
     const [cars, setCars] = useState<Car[]>([])

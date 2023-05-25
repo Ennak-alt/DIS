@@ -2,8 +2,8 @@
 import Recommended from "./recommended";
 import Post from "./post"
 import React, { useState, useEffect } from 'react';
-import CarService, {DefaultCar} from "@/app/api/hello/carService";
-import UserService from "@/app/api/hello/userService";
+import CarService, {DefaultCar} from "@/app/api/carService";
+import UserService from "@/app/api/userService";
 
 export default function Page({ params, searchParams }) {
   const [data, setData] = useState({car: DefaultCar, rec: [DefaultCar], seller: UserService.DefaultUser});

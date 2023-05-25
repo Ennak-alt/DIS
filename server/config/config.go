@@ -6,6 +6,9 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"math/rand"
+    "time"
+	"github.com/bwmarrin/snowflake"
 
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
@@ -13,7 +16,20 @@ import (
 
 var (
 	db *sql.DB
+	node *snowflake.Node
 )
+
+func Init() {
+	// Init randomness
+	rand.Seed(time.Now().UnixNano())
+
+	// Init slowflake node
+	n, err := snowflake.NewNode(1)
+	if err != nil {
+		panic(err)
+	}
+	node = n
+}
 
 func ReadConfig() {
 	viper.SetConfigFile(".env")
@@ -79,4 +95,8 @@ func SetupDB() {
 
 func GetDB() *sql.DB {
 	return db
+}
+
+func GenerateSnowflake() int64 {
+	return int64(node.Generate())
 }
