@@ -16,10 +16,10 @@ function CardOrLogin() {
     else {
         return (
             <div className="sm:flex sm:gap-4">
-                <Link className="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700" href="/login">
+                <Link className="block rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700" href="/login">
                     Login
                 </Link>
-                <Link className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block" href="/">
+                <Link className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-blue-600 transition hover:text-teal-600/75 sm:block" href="/">
                     Register
                 </Link>
             </div>
@@ -48,38 +48,53 @@ export default function RootLayout({
                 <nav aria-label="Site Nav" className="hidden md:block">
                     <ul className="flex items-center gap-6 text-sm">
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
-                        About
-                        </a>
-                    </li>
-
-                    <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
-                        Careers
-                        </a>
-                    </li>
-
-                    <li>
                         <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts">
-                        Posts
+                        All cars
                         </a>
                     </li>
-
                     <li>
                         <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
-                        Services
+                        SUVs
                         </a>
                     </li>
-
                     <li>
                         <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
-                        Projects
+                        Pickups
                         </a>
                     </li>
-
                     <li>
                         <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
-                        Blog
+                        Coupes
+                        </a>
+                    </li>
+                    <li>
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        Hatchbacks
+                        </a>
+                    </li>
+                    <li>
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        Mini-vans
+                        </a>
+                    </li>
+                    <li>
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        Sedans
+                        </a>
+                    </li>
+                    <li>
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        Offroaders
+                        </a>
+                    </li>
+                    <li>
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        Convertibles
+                        </a>
+                    </li>
+                    <li>
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        Buses
                         </a>
                     </li>
                     </ul>
