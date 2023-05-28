@@ -20,13 +20,22 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 	for key, val := range(queryStrings) {
 		fmt.Println(val)
 		fmt.Println(queryArguments)
-		if val == nil {
+		if val == nil || key == "idx_order" {
 			continue
 		}
 
 		queryString += " AND ("
 
 		switch key {
+		case "idx":
+			order, found := queryStrings["idx_order"]
+			if found && order[0] == "prev" {
+				queryString += fmt.Sprintf(" idx < $%d ", number)
+			} else {
+				queryString += fmt.Sprintf(" %d < idx ", number)
+			}
+			number += 1
+
 		case "id": case "seller_id":
 			queryString += fmt.Sprintf(" %s != $%d ", key, number)
 			number += 1
@@ -78,44 +87,27 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 		err  error
 	)
 
-	if idx == -1 {
-		queryString, queryParams := constructQuery(1, queryStrings)
-		fmt.Println(queryString)
-		if queryString == "" {
-			sql :=
-				`SELECT * 
-				FROM post
-				ORDER BY idx DESC
-				LIMIT 10`
-			
-			rows, err = db.Query(sql)
-		} else {
-			sql :=
-				fmt.Sprintf(
-					`SELECT *
-					FROM post
-					WHERE %s
-					ORDER BY idx DESC
-					LIMIT 10`,
-					queryString[4:],
-				)
-			fmt.Println(sql)
-			fmt.Println(queryParams)
-			rows, err = db.Query(sql, queryParams...)
-		}
+	queryString, queryParams := constructQuery(1, queryStrings)
+
+	if queryString == "" {
+		sql :=
+			`SELECT * 
+			FROM post
+			ORDER BY idx DESC
+			LIMIT 10`
+		
+		rows, err = db.Query(sql)
 
 	} else {
-		queryString, queryParams := constructQuery(2, queryStrings)
 		sql :=
 			fmt.Sprintf(
 				`SELECT *
 				FROM post
-				WHERE idx < $1 %s
+				WHERE %s
 				ORDER BY idx DESC
 				LIMIT 10`,
-				queryString,
+				queryString[4:],
 			)
-		queryParams = append([]any{idx}, queryParams...)
 		rows, err = db.Query(sql, queryParams...)
 	}
 
