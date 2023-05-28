@@ -9,6 +9,6 @@ df.pop('lat')
 df.pop('long')
 df.pop('title_status')
 
-df["image"] = "abc"
+df["description"] = "abc"
 
 print(df.head(2000).to_csv("cars.csv", sep = ';'))

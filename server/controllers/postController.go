@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	_ "fmt"
 	"net/http"
 	"strconv"
@@ -50,6 +51,7 @@ func GetPost(c *gin.Context) {
 }
 
 func GetPosts(c *gin.Context) {
+
 	c.Header("Access-Control-Allow-Origin", "*")
 
 	var post models.Post
@@ -81,11 +83,12 @@ func GetPosts(c *gin.Context) {
 		}
 		idx = idxInt
 	}
-
-	posts, err := repositories.QueryPosts(idx, post)
+	
+	posts, err := repositories.QueryPosts(idx, c.Request.URL.Query())
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, "Something went wrong when retrieving")
+		return
 	}
 
 	c.JSON(http.StatusOK, posts)
