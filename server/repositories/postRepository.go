@@ -18,8 +18,9 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 	queryArguments := make([]any, 0)
 
 	for key, val := range(queryStrings) {
-		fmt.Println(val)
-		fmt.Println(queryArguments)
+		fmt.Println("key", key)
+		fmt.Println("val", val)
+		fmt.Println("args", queryArguments)
 		if val == nil || key == "idx_order" {
 			continue
 		}
@@ -36,8 +37,9 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 			}
 			number += 1
 
-		case "id": case "seller_id":
+		case "id", "seller_id":
 			queryString += fmt.Sprintf(" %s != $%d ", key, number)
+			fmt.Println("hello", queryString)
 			number += 1
 
 		case "price":
@@ -50,7 +52,7 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 			if err1 != nil || err2 != nil {
 				continue
 			}
-			queryString += fmt.Sprintf(" $%d < price AND price < $%d )", number, number+1)
+			queryString += fmt.Sprintf(" $%d <= price AND price <= $%d )", number, number+1)
 			number += 2
 			queryArguments = append(queryArguments, from, to)	
 			continue
@@ -108,6 +110,7 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 				LIMIT 10`,
 				queryString[4:],
 			)
+		fmt.Println(sql)
 		rows, err = db.Query(sql, queryParams...)
 	}
 
