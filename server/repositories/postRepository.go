@@ -31,9 +31,9 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 		case "idx":
 			order, found := queryStrings["idx_order"]
 			if found && order[0] == "prev" {
-				queryString += fmt.Sprintf(" idx < $%d ", number)
+				queryString += fmt.Sprintf("$%d < idx ", number)
 			} else {
-				queryString += fmt.Sprintf(" %d < idx ", number)
+				queryString += fmt.Sprintf("$%d > idx ", number)
 			}
 			number += 1
 
@@ -100,6 +100,21 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 		
 		rows, err = db.Query(sql)
 
+	} else if val, ok := queryStrings["idx_order"]; ok && len(val) != 0 && val[0] == "prev"  {
+		sql :=
+			fmt.Sprintf(
+				`
+				SELECT * 
+				FROM (SELECT *
+					FROM post
+					WHERE %s
+					ORDER BY idx ASC
+					LIMIT 10) AS X 
+				ORDER BY idx DESC`,
+				queryString[4:],
+			)
+		fmt.Println(sql)
+		rows, err = db.Query(sql, queryParams...)
 	} else {
 		sql :=
 			fmt.Sprintf(
@@ -111,7 +126,7 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 				queryString[4:],
 			)
 		fmt.Println(sql)
-		rows, err = db.Query(sql, queryParams...)
+		rows, err = db.Query(sql, queryParams...)	
 	}
 
 	posts := make([]models.Post, 0)

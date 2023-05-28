@@ -8,14 +8,19 @@ export default function Page({ params, searchParams }) {
     const [cars, setCars] = useState<Car[]>([])
     // const [idx, setIdx] = useState<string>("")
     const [page, setPage] = useState(1)
+    const [prev, setPrev] = useState(false)
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        var idx = null
+        var idx = ""
         if (cars.length != 0) {
-            idx = cars[9].idx
+            if (prev) {
+                idx = "?idx=" + cars[0].idx + "&idx_order=prev"
+            } else {
+                idx = "?idx=" + cars[cars.length-1].idx
+            }
         }
-        fetch('http://localhost:8088/posts/' + (idx == null ? "" : "?idx=" + idx))
+        fetch('http://localhost:8088/posts/' + idx)
             .then(response => response.json())
             .then(json => {
                 console.log("hello")
@@ -32,7 +37,7 @@ export default function Page({ params, searchParams }) {
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
                 {cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}
             </div>
-            <Pagination page={page} setPage={setPage}/>
+            <Pagination page={page} setPage={setPage} setPrev={setPrev}/>
 
         </div>
     )
@@ -41,15 +46,16 @@ export default function Page({ params, searchParams }) {
 interface props {
     page: number,
     setPage: React.Dispatch<React.SetStateAction<number>>
+    setPrev: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Pagination = ({page, setPage}: props) => {
+const Pagination = ({page, setPage, setPrev}: props) => {
     return (
         <div
             className="inline-flex items-center justify-center rounded bg-blue-600 py-1 text-white"
         >
             <button
-                onClick={() => {if (page != 1) {setPage(page-1)}}}
+                onClick={() => {if (page != 1) {setPage(page-1); setPrev(true)}}}
                 className="inline-flex h-8 w-8 items-center justify-center rtl:rotate-180"
                 disabled={page == 1}
             >
@@ -85,7 +91,7 @@ const Pagination = ({page, setPage}: props) => {
             <span className="h-4 w-px bg-white/25"></span>
 
             <button
-                onClick={() => setPage(page+1)}
+                onClick={() => {setPage(page+1); setPrev(false)}}
                 className="inline-flex h-8 w-8 items-center justify-center rtl:rotate-180"
             >
                 <span className="sr-only">Next Page</span>
