@@ -16,10 +16,10 @@ function CardOrLogin() {
     else {
         return (
             <div className="sm:flex sm:gap-4">
-                <Link className="block rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700" href="/login">
+                <Link className="block rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700" href="/login">
                     Login
                 </Link>
-                <Link className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-blue-600 transition hover:text-teal-600/75 sm:block" href="/register">
+                <Link className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-blue-600 transition hover:text-blue-600/75 sm:block" href="/register">
                     Register
                 </Link>
             </div>
