@@ -53,47 +53,47 @@ export default function RootLayout({
                         </a>
                     </li>
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts/?cartype=SUV">
                         SUVs
                         </a>
                     </li>
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts/?cartype=pickup">
                         Pickups
                         </a>
                     </li>
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts/?cartype=coupe">
                         Coupes
                         </a>
                     </li>
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts/?cartype=hatchback">
                         Hatchbacks
                         </a>
                     </li>
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts/?cartype=mini-van">
                         Mini-vans
                         </a>
                     </li>
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts/?cartype=sedan">
                         Sedans
                         </a>
                     </li>
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts/?cartype=offroad">
                         Offroaders
                         </a>
                     </li>
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts/?cartype=convertible">
                         Convertibles
                         </a>
                     </li>
                     <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/">
+                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts/?cartype=bus">
                         Buses
                         </a>
                     </li>

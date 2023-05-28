@@ -20,7 +20,9 @@ export default function Page({ params, searchParams }) {
                 idx = "?idx=" + cars[cars.length-1].idx
             }
         }
-        fetch('http://localhost:8088/posts/' + idx)
+
+        let specfic_search = (searchParams.cartype != undefined) ? '?cartype=' + searchParams.cartype : ""
+        fetch('http://localhost:8088/posts/' + idx + specfic_search)
             .then(response => response.json())
             .then(json => {
                 console.log("hello")
@@ -33,7 +35,7 @@ export default function Page({ params, searchParams }) {
     return (
         <div className='flex flex-col items-center gap-5 m-5'>
             <Filter />
-            
+
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
                 {cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}
             </div>
