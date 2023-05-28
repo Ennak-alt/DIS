@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-	_ "fmt"
 	"net/http"
 	"strconv"
 
