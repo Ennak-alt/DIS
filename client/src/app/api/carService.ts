@@ -53,7 +53,18 @@ export interface Car {
       return await fetch("http://localhost:8088/posts/" + id).then(res => res.json());
     }
     public static async GetRecommended(car: Car): Promise<Car[]> {
-        return await fetch(`http://localhost:8088/posts/?id=${car.id}&car_type=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}`)
-       .then(res => res.json());
+      let rec_cars : Car[] = []
+      rec_cars.concat(await fetch(`http://localhost:8088/posts/?id=${car.id}&car_type=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}`)
+       .then(res => res.json()));
+
+      if (rec_cars.length < 6) {
+        rec_cars = rec_cars.concat(await fetch(`http://localhost:8088/posts/?id=${car.id}&car_type=${car.cartype}&paint_color=${car.paint_color}`)
+        .then(res => res.json()));
+      }
+      if (rec_cars.length < 6) {
+        rec_cars = rec_cars.concat(await fetch(`http://localhost:8088/posts/?id=${car.id}&car_type=${car.cartype}`)
+        .then(res => res.json()));
+      }
+      return rec_cars.slice(0,6)
     }
   }
