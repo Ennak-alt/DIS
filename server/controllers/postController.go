@@ -53,7 +53,7 @@ func GetPosts(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 
 	var post models.Post
-	post.Id = c.DefaultPostForm("id", "")
+	post.Id = c.DefaultQuery("id", "")
 	post.Cartype = c.DefaultQuery("car_type", "")
 	post.Paint_color = c.DefaultQuery("paint_color", "")
 	post.Seller_id = c.DefaultQuery("seller_id", "")

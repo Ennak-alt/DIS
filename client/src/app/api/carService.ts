@@ -53,7 +53,7 @@ export interface Car {
       return await fetch("http://localhost:8088/posts/" + id).then(res => res.json());
     }
     public static async GetRecommended(car: Car): Promise<Car[]> {
-        return await fetch(`http://localhost:8088/posts/?car_type=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}&seller_id=${car.seller_id}`)
+        return await fetch(`http://localhost:8088/posts/?id=${car.id}&car_type=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}&seller_id=${car.seller_id}`)
        .then(res => res.json());
     }
   }
