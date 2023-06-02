@@ -40,7 +40,7 @@ func GetPost(c *gin.Context) {
 		&post.County,
 		&post.Carstate,
 		&post.Posting_date,
-	    &post.Seller_id)
+		&post.Seller_id)
 
 	if err != nil {
 		panic(err)
@@ -81,7 +81,7 @@ func GetPosts(c *gin.Context) {
 		}
 		idx = idxInt
 	}
-	
+
 	posts, err := repositories.QueryPosts(idx, c.Request.URL.Query())
 
 	if err != nil {
@@ -90,4 +90,39 @@ func GetPosts(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, posts)
+}
+
+func GetCategories(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+
+	var categories models.Categories
+
+	// type
+	categories.Cartype = repositories.QueryCategory("cartype")
+
+	// price
+	categories.PriceFrom, categories.PriceTo = repositories.QueryCategoryMinMax("price")
+
+	// color
+	categories.Color = repositories.QueryCategory("paint_color")
+
+	// odometer
+	categories.OdometerFrom, categories.OdometerTo = repositories.QueryCategoryMinMax("odometer")
+
+	// drive
+	categories.Drive = repositories.QueryCategory("drive")
+
+	// size
+	categories.Size = repositories.QueryCategory("size")
+
+	// condition
+	categories.Condition = repositories.QueryCategory("condition")
+
+	// fuel
+	categories.Fuel = repositories.QueryCategory("fuel")
+
+	// trans
+	categories.Transmission = repositories.QueryCategory("transmission")
+
+	c.JSON(http.StatusOK, categories)
 }

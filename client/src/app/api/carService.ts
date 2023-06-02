@@ -48,13 +48,46 @@ export interface Car {
     seller_id: "-1"
   }
 
+
+/*
+    type
+    price
+    color
+    odometer
+    drive
+    size
+    condition
+    fuel
+    trans
+*/
+
+  export interface CarCategories {
+    type: string[],
+    priceFrom: number,
+    priceTo: number,
+    color: string[],
+    odometerFrom: number,
+    odometerTo: number,
+    drive: string[],
+    size: string[],
+    condition: string[],
+    fuel: string[]
+    transmission: string[]
+  }
+
   export default class CarService {
+    public static async GetCategories(): Promise<CarCategories> {
+      return await fetch("http://localhost:8088/posts/categories").then(res => res.json());
+    }
+
     public static async GetPost(id: number): Promise<Car> {
       return await fetch("http://localhost:8088/posts/" + id).then(res => res.json());
     }
+
     public static async GetSellerCars(seller_id: string): Promise<Car[]> {
-      return await fetch("http://localhost:8088/posts/?seller_id=" + seller_id).then(res => res.json()); 
+      return await fetch("http://localhost:8088/posts/?seller_id=" + seller_id).then(res => res.json());
     }
+
     public static async GetRecommended(car: Car): Promise<Car[]> {
       let rec_cars : Car[] = []
       rec_cars.concat(await fetch(`http://localhost:8088/posts/?id=${car.id}&cartype=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}`)

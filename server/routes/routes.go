@@ -13,19 +13,19 @@ import (
 
 // https://stackoverflow.com/questions/29418478/go-gin-framework-cors
 func CORSMiddleware() gin.HandlerFunc {
-    return func(c *gin.Context) {
-        c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-        c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-        c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, accept, origin, Cache-Control, X-Requested-With, Token")
-        c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, accept, origin, Cache-Control, X-Requested-With, Token")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
 
-        if c.Request.Method == "OPTIONS" {
-            c.AbortWithStatus(204)
-            return
-        }
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
 
-        c.Next()
-    }
+		c.Next()
+	}
 }
 
 func CreateApiRoutes(port int) {
@@ -36,16 +36,16 @@ func CreateApiRoutes(port int) {
 	{
 		pr.GET("/", controllers.GetPosts)
 		pr.GET("/:id", controllers.GetPost)
-		//pr.GET("/alike_post", controllers.GetRecommendedPosts)
+		pr.GET("/categories", controllers.GetCategories)
 	}
 
-	ur := r.Group("/users") 
+	ur := r.Group("/users")
 	{
 		ur.GET("/:id", controllers.GetUser)
 		ur.POST("/:id/ratings", controllers.AddRating)
 	}
-	r.POST("/login",  controllers.Login)
-	r.POST("/register",  controllers.Register)
+	r.POST("/login", controllers.Login)
+	r.POST("/register", controllers.Register)
 	r.POST("/logout", controllers.Logout)
 
 	r.GET("/ping", getPing)

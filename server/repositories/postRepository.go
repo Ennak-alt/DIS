@@ -17,7 +17,7 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 	queryString := ""
 	queryArguments := make([]any, 0)
 
-	for key, val := range(queryStrings) {
+	for key, val := range queryStrings {
 		fmt.Println("key", key)
 		fmt.Println("val", val)
 		fmt.Println("args", queryArguments)
@@ -54,11 +54,11 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 			}
 			queryString += fmt.Sprintf(" $%d <= price AND price <= $%d )", number, number+1)
 			number += 2
-			queryArguments = append(queryArguments, from, to)	
+			queryArguments = append(queryArguments, from, to)
 			continue
 
 		default:
-			for i := range(val) {
+			for i := range val {
 				queryString += fmt.Sprintf(" %s = $%d ", key, number)
 				number += 1
 				if i != len(val)-1 {
@@ -69,8 +69,8 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 
 		queryString += ")"
 
-		for _, q := range(val) {
-			queryArguments = append(queryArguments, q)	
+		for _, q := range val {
+			queryArguments = append(queryArguments, q)
 		}
 	}
 
@@ -80,7 +80,7 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error) {
 	db := config.GetDB()
 
-	for key, val := range(queryStrings) {
+	for key, val := range queryStrings {
 		fmt.Println(key, val)
 	}
 
@@ -93,23 +93,23 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 
 	if queryString == "" {
 		sql :=
-			`SELECT * 
+			`SELECT *
 			FROM post
 			ORDER BY idx DESC
 			LIMIT 10`
-		
+
 		rows, err = db.Query(sql)
 
-	} else if val, ok := queryStrings["idx_order"]; ok && len(val) != 0 && val[0] == "prev"  {
+	} else if val, ok := queryStrings["idx_order"]; ok && len(val) != 0 && val[0] == "prev" {
 		sql :=
 			fmt.Sprintf(
 				`
-				SELECT * 
+				SELECT *
 				FROM (SELECT *
 					FROM post
 					WHERE %s
 					ORDER BY idx ASC
-					LIMIT 10) AS X 
+					LIMIT 10) AS X
 				ORDER BY idx DESC`,
 				queryString[4:],
 			)
@@ -126,7 +126,7 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 				queryString[4:],
 			)
 		fmt.Println(sql)
-		rows, err = db.Query(sql, queryParams...)	
+		rows, err = db.Query(sql, queryParams...)
 	}
 
 	posts := make([]models.Post, 0)
@@ -175,4 +175,55 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 
 	err = rows.Err()
 	return posts, err
+}
+
+func QueryCategory(cat string) []string {
+	db := config.GetDB()
+	sql := fmt.Sprintf("SELECT DISTINCT %s FROM post", cat)
+
+	rows, err := db.Query(sql)
+
+	cats := make([]string, 0)
+
+	if err != nil {
+		fmt.Println(err)
+		return cats
+	}
+
+	for rows.Next() {
+		var catn string
+		err = rows.Scan(&catn)
+
+		if err != nil {
+			fmt.Println(err)
+			return cats
+		}
+		cats = append(cats, catn)
+	}
+	fmt.Println(cats)
+	return cats
+}
+
+func QueryCategoryMinMax(cat string) (int, int) {
+	db := config.GetDB()
+	sqlMIN := fmt.Sprintf("SELECT DISTINCT MIN(%s) FROM post", cat)
+	sqlMAX := fmt.Sprintf("SELECT DISTINCT MAX(%s) FROM post", cat)
+
+	row := db.QueryRow(sqlMIN)
+	var min int
+	err1 := row.Scan(&min)
+
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	row = db.QueryRow(sqlMAX)
+	var max int
+	err2 := row.Scan(&max)
+
+	if err2 != nil {
+		fmt.Println(err2)
+	}
+
+	return min, max
 }

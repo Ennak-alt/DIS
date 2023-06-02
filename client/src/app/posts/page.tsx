@@ -6,6 +6,7 @@ import { Filter } from './filter';
 
 export default function Page({ params, searchParams }) {
     const [cars, setCars] = useState<Car[]>([])
+    const [categories, setCategories] = useState<CarCategories>(null)
     // const [idx, setIdx] = useState<string>("")
     const [page, setPage] = useState(1)
     const [prev, setPrev] = useState(false)
@@ -34,7 +35,9 @@ export default function Page({ params, searchParams }) {
 
     return (
         <div className='flex flex-col items-center gap-5 m-5'>
-            <Filter />
+            {Object.entries(categories).forEach(([key, value]) => {
+
+            })}
 
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
                 {cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}
