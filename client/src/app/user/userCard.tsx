@@ -57,7 +57,7 @@ function Rating(props: {rating: number, numRatings: number, userRating: number, 
         } else {
             stars.push(<img src="/half_star.svg" onMouseMove={() => setRating(Math.floor(rating + 1))} onClick={() => addRating(Math.floor(rating + 1))} onMouseLeave={resetRating} className="inline h-3 aspect-square border-none w-4 cursor-pointer"></img>);
         }
-        
+
         for(let i = stars.length; i < 5; ++i) {
             stars.push(<img src="/empty_star.svg" onMouseMove={() => setRating(i + 1)} onClick={() => addRating(i + 1)} onMouseLeave={resetRating} className="inline h-3 aspect-square border-none w-4 cursor-pointer"></img>);
         }
@@ -80,7 +80,7 @@ export default function UserCard(props: {uid: string, name: string, userRating?:
         <div className="flex flex-wrap justify-center">
             <div className="m-auto h-12">
                 <span>
-                    <ConditionalLink href={props.clickable ? `/user/${props.uid}` : null}><img src="/Cars/SUV.jpeg" className="inline h-full rounded-full aspect-square border-none" /></ConditionalLink>
+                    <ConditionalLink href={props.clickable ? `/user/${props.uid}` : null}><img src="/cars/user.jpeg" className="inline h-full rounded-full aspect-square border-none" /></ConditionalLink>
                 </span>
                 <div className="align-middle text-center" style={{display: "inline-block", lineHeight: "1.1em", paddingLeft: "0.75em"}}>
                     <ConditionalLink href={props.clickable ? `/user/${props.uid}` : null}><span className="font-semibold">{props.name}</span><br/></ConditionalLink>
