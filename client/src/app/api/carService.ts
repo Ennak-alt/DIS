@@ -52,6 +52,9 @@ export interface Car {
     public static async GetPost(id: number): Promise<Car> {
       return await fetch("http://localhost:8088/posts/" + id).then(res => res.json());
     }
+    public static async GetSellerCars(seller_id: string): Promise<Car[]> {
+      return await fetch("http://localhost:8088/posts/?seller_id=" + seller_id).then(res => res.json()); 
+    }
     public static async GetRecommended(car: Car): Promise<Car[]> {
       let rec_cars : Car[] = []
       rec_cars.concat(await fetch(`http://localhost:8088/posts/?id=${car.id}&cartype=${car.cartype}&paint_color=${car.paint_color}&price=${car.price}`)

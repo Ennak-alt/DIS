@@ -37,7 +37,7 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 			}
 			number += 1
 
-		case "id", "seller_id":
+		case "id":
 			queryString += fmt.Sprintf(" %s != $%d ", key, number)
 			fmt.Println("hello", queryString)
 			number += 1

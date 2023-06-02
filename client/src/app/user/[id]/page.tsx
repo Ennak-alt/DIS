@@ -18,7 +18,7 @@ export default function Page(params: {params: {id: string}, searchParams: any}) 
             search.paint_color = "",
             search.price = -1;
             search.seller_id = params.params.id;
-            const cars = await CarService.GetRecommended(search);
+            const cars = await CarService.GetSellerCars(params.params.id);
             setData({user, cars});
         })();
     }, []);
