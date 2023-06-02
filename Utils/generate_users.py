@@ -67,4 +67,4 @@ for i in range(NUM_USERS):
 newcarsfile = open("./cars.csv", "w")
 for line in open("./oldcars.csv", "r"):
     newcarsfile.write(line[:-1])
-    newcarsfile.write(";%d\n" % sellers.pop())
+    newcarsfile.write(";%d\n" % sellers[random.randrange(len(sellers))])
