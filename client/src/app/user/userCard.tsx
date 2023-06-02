@@ -80,7 +80,7 @@ export default function UserCard(props: {uid: string, name: string, userRating?:
         <div className="flex flex-wrap justify-center">
             <div className="m-auto h-12">
                 <span>
-                    <ConditionalLink href={props.clickable ? `/user/${props.uid}` : null}><img src="/cars/user.jpeg" className="inline h-full rounded-full aspect-square border-none" /></ConditionalLink>
+                    <ConditionalLink href={props.clickable ? `/user/${props.uid}` : null}><img src="/user.jpeg" className="inline h-full rounded-full aspect-square border-none" /></ConditionalLink>
                 </span>
                 <div className="align-middle text-center" style={{display: "inline-block", lineHeight: "1.1em", paddingLeft: "0.75em"}}>
                     <ConditionalLink href={props.clickable ? `/user/${props.uid}` : null}><span className="font-semibold">{props.name}</span><br/></ConditionalLink>
