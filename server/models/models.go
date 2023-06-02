@@ -11,7 +11,7 @@ type Post struct {
 	Manufacturer   string `json:"manufacturer"`
 	Model          string `json:"model"`
 	Condition      string `json:"condition"`
-	Cylinders      string `json:"cyliders"` // Should be a number
+	Cylinders      string `json:"cylinders"` // Should be a number
 	Fuel           string `json:"fuel"`
 	Odometer       string `json:"odometer"` // Should be a number
 	Transmission   string `json:"transmission"`
@@ -29,19 +29,19 @@ type Post struct {
 
 type User struct {
 	// User ID
-	UID            int64   `json:"uid"` // Snowflake
+	UID int64 `json:"uid"` // Snowflake
 
 	// Password
-	Password_salt  string  `json:"-"` // Salt
-	Password_hash  string  `json:"-"` // SHA-256 hash
+	Password_salt string `json:"-"` // Salt
+	Password_hash string `json:"-"` // SHA-256 hash
 
 	// Contact info
-	First_name     string  `json:"fname"`
-	Last_name      string  `json:"lname"`
-	Email          string  `json:"email"`
-	Phone          string  `json:"phone"`
-	
+	First_name string `json:"fname"`
+	Last_name  string `json:"lname"`
+	Email      string `json:"email"`
+	Phone      string `json:"phone"`
+
 	// Meta
-	Rating         float32 `json:"rating"`
-	Num_ratings    uint32  `json:"numRatings"`
+	Rating      float32 `json:"rating"`
+	Num_ratings uint32  `json:"numRatings"`
 }
