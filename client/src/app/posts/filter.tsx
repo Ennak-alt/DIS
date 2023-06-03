@@ -1,37 +1,24 @@
-
-/*
-    type
-    price
-    color
-    odometer
-    year
-    drive
-    size
-    condition
-    fuel
-    trans
-
-
-*/
+import { Car, CarCategories } from '../api/carService';
 
 interface props {
-    category: string,
-    categories: string[],
-    usedCategories: CarCategories,
-    setCategories: React.Dispatch<React.SetStateAction<CarCategories>>,
+    cat: string,
+    availablecats: string[],
+    usedCats: CarCategories,
+    setCats: React.Dispatch<React.SetStateAction<CarCategories>>,
 }
 
 
-export const Filter: : React.FC<props> = ({category, categories, usedCategories, setCategories}: props) => {
+export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}: props) => {
 
-    const setCategory (catname) => {
-        let c = usedCategories[category]
+    const setCategory = (catname: string) => {
+        let c = (usedCats[cat]) as string[]
+
         if (c.includes(catname)) {
-            c = c.splice(c.indexof(catname), 1)
+            c = c.splice(c.indexOf(catname, 1))
         } else {
             c.push(catname)
         }
-        setCategories(...usedCategories, cateogory: c)
+        setCats({...usedCats, cat: c})
     }
 
     return (
@@ -40,7 +27,7 @@ export const Filter: : React.FC<props> = ({category, categories, usedCategories,
             <summary
                 className="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600"
             >
-                <span className="text-sm font-medium"> {name} </span>
+                <span className="text-sm font-medium"> {cat} </span>
 
                 <span className="transition group-open:-rotate-180">
                     <svg
@@ -76,22 +63,24 @@ export const Filter: : React.FC<props> = ({category, categories, usedCategories,
                     </header>
 
                     <ul className="space-y-1 border-t border-gray-200 p-4">
-                        {categories.map(categoryName) => {
-                            <li>
-                                <label htmlFor={categoryName} className="inline-flex items-center gap-2">
-                                    <input
-                                        type="checkbox"
-                                        id={categoryName}
-                                        checked={usedCategories[name].includes(categoryName)}
-                                        onChange={() => setCategory(categoryName)}
-                                    />
+                        {availablecats.map((categoryName) => {
+                            return (
+                                <li>
+                                    <label htmlFor={categoryName} className="inline-flex items-center gap-2">
+                                        <input
+                                            type="checkbox"
+                                            id={categoryName}
+                                            checked={(usedCats[cat] as string[]).includes(categoryName)}
+                                            onChange={() => setCategory(categoryName)}
+                                        />
 
-                                    <span className="text-sm font-medium text-gray-700">
-                                        {categoryName}
-                                    </span>
-                                </label>
-                            </li>
-                        }}
+                                        <span className="text-sm font-medium text-gray-700">
+                                            {categoryName}
+                                        </span>
+                                    </label>
+                                </li>
+                            )
+                            })}
                     </ul>
                 </div>
             </div>

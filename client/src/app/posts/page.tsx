@@ -1,29 +1,79 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Card } from './card';
-import { Car } from '../api/carService';
+import CarService, { Car, ICarCategories, CarCategories, defaultCategories} from '../api/carService';
 import { Filter } from './filter';
+import { all } from 'axios';
 
-export default function Page({ params, searchParams }) {
+const categoryNames = [
+    "cartype",
+    "price",
+    "cylinders",
+    "paint_color",
+    "odometer",
+    "drive",
+    "size", 
+    "condition", 
+    "fuel",
+    "transmission",
+]
+
+export default function Page() {
     const [cars, setCars] = useState<Car[]>([])
-    const [categories, setCategories] = useState<CarCategories>(null)
-    // const [idx, setIdx] = useState<string>("")
+    const [allcategories, setAllCategories] = useState<ICarCategories | null>(null)
+    const [usedCategories, setUsedCategories] = useState<CarCategories>(defaultCategories)
+    const [categoryChange, setCategoryChange] = useState<boolean>(false)
     const [page, setPage] = useState(1)
     const [prev, setPrev] = useState(false)
 
     useEffect(() => {
+        console.log("changed")
         window.scrollTo(0, 0)
-        var idx = ""
-        if (cars.length != 0) {
+        setCategoryChange(true)
+        setPage(1)
+    }, [usedCategories])
+
+    useEffect(() => {
+        CarService.GetCategories().then(async categories => {
+            setAllCategories(categories)
+        })
+        
+        console.log("Hello")
+        window.scrollTo(0, 0)
+        var idx = "?"
+        if (page === 1)  {
+            console.log("Bip bip")
+            idx = "?"
+        }
+        else if (cars.length != 0) {
             if (prev) {
-                idx = "?idx=" + cars[0].idx + "&idx_order=prev"
+                idx += "idx=" + cars[0].idx + "&idx_order=prev&"
             } else {
-                idx = "?idx=" + cars[cars.length-1].idx
+                idx += "idx=" + cars[cars.length-1].idx + "&"
             }
         }
 
-        let specfic_search = (searchParams.cartype != undefined) ? '?cartype=' + searchParams.cartype : ""
-        fetch('http://localhost:8088/posts/' + idx + specfic_search)
+        const search = categoryNames.reduce((acc1, cur1) => {
+            console.log(cur1)
+            console.log(acc1)
+            if (cur1 === "price" || cur1 === "odometer" || cur1 === "cylinders") {
+                if (usedCategories[cur1+"To"] !== 0) {
+                    return acc1 + `${cur1}=${usedCategories[cur1+"From"]},${cur1+"To"}&`
+                }
+                return acc1 + ""
+            } 
+            return (
+                acc1 + (usedCategories[cur1] as string[]).reduce((acc2, cur2) => {
+                    console.log(cur2)
+                    return acc2 + `${cur1}=${cur2}&`
+                }, "")
+            )
+        }, "")
+
+        console.log(search)
+
+        // let specfic_search = (searchParams.cartype != undefined) ? '?cartype=' + searchParams.cartype : ""
+        fetch('http://localhost:8088/posts/' + idx + search)
             .then(response => response.json())
             .then(json => {
                 console.log("hello")
@@ -31,14 +81,31 @@ export default function Page({ params, searchParams }) {
                 console.log(json)
             })
             .catch(error => console.error(error));
-    }, [page]);
+        setCategoryChange(false)
+    }, [page, categoryChange]);
 
     return (
         <div className='flex flex-col items-center gap-5 m-5'>
-            {Object.entries(categories).forEach(([key, value]) => {
-
-            })}
-
+            <div className='flex flex-row gap-5'>
+                {allcategories && categoryNames.map((value) => {
+                    if (value === "price" || value === "odometer" || value === "cylinders") {
+                        return (
+                            <div>
+                                {/* {allcategories[value+"From"]}
+                                {allcategories[value+"To"]} */}
+                            </div>
+                        )
+                    } else {
+                        return (
+                            <Filter 
+                                cat={value} 
+                                availablecats={allcategories[value] as string[]} 
+                                usedCats={usedCategories}
+                                setCats={setUsedCategories}/>
+                        )
+                    }
+                })}
+            </div>
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
                 {cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}
             </div>
