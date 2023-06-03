@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 	"strconv"
-
+	"fmt"
 	"github.com/Ennak-alt/DIS/server/config"
 	"github.com/Ennak-alt/DIS/server/models"
 	"github.com/Ennak-alt/DIS/server/repositories"
@@ -85,6 +85,7 @@ func GetPosts(c *gin.Context) {
 	posts, err := repositories.QueryPosts(idx, c.Request.URL.Query())
 
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, "Something went wrong when retrieving")
 		return
 	}
