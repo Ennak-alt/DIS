@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from './card';
 import CarService, { Car, ICarCategories, CarCategories, defaultCategories} from '../api/carService';
-import { Filter } from './filter';
+import { Filter, FilterMINMAX } from './filter';
 import { all } from 'axios';
+import Link from 'next/link';
 
 const categoryNames = [
     "cartype",
@@ -12,8 +13,8 @@ const categoryNames = [
     "paint_color",
     "odometer",
     "drive",
-    "size", 
-    "condition", 
+    "size",
+    "condition",
     "fuel",
     "transmission",
 ]
@@ -25,6 +26,7 @@ export default function Page() {
     const [categoryChange, setCategoryChange] = useState<boolean>(false)
     const [page, setPage] = useState(1)
     const [prev, setPrev] = useState(false)
+    const [searchSlider, setSearchSlider] = useState("")
 
     useEffect(() => {
         console.log("changed")
@@ -37,8 +39,7 @@ export default function Page() {
         CarService.GetCategories().then(async categories => {
             setAllCategories(categories)
         })
-        
-        console.log("Hello")
+
         window.scrollTo(0, 0)
         var idx = "?"
         if (page === 1)  {
@@ -61,7 +62,7 @@ export default function Page() {
                     return acc1 + `${cur1}=${usedCategories[cur1+"From"]},${cur1+"To"}&`
                 }
                 return acc1 + ""
-            } 
+            }
             return (
                 acc1 + (usedCategories[cur1] as string[]).reduce((acc2, cur2) => {
                     console.log(cur2)
@@ -73,10 +74,9 @@ export default function Page() {
         console.log(search)
 
         // let specfic_search = (searchParams.cartype != undefined) ? '?cartype=' + searchParams.cartype : ""
-        fetch('http://localhost:8088/posts/' + idx + search)
+        fetch('http://localhost:8088/posts/' + idx + search + searchSlider)
             .then(response => response.json())
             .then(json => {
-                console.log("hello")
                 setCars(json)
                 console.log(json)
             })
@@ -93,18 +93,24 @@ export default function Page() {
                             <div>
                                 {/* {allcategories[value+"From"]}
                                 {allcategories[value+"To"]} */}
+                                <FilterMINMAX
+                                    cat={value}
+                                    minValue = {allcategories[value+"From"] as string[]}
+                                    maxValue = {allcategories[value+"To"] as string[]}
+                                    setComponent={setSearchSlider}
+                                    />
                             </div>
                         )
                     } else {
                         return (
-                            <Filter 
-                                cat={value} 
-                                availablecats={allcategories[value] as string[]} 
+                            <Filter
+                                cat={value}
+                                availablecats={allcategories[value] as string[]}
                                 usedCats={usedCategories}
                                 setCats={setUsedCategories}/>
-                        )
-                    }
-                })}
+                                )
+                            }
+                        })}
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
                 {cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}

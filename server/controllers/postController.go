@@ -1,9 +1,10 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
-	"fmt"
+
 	"github.com/Ennak-alt/DIS/server/config"
 	"github.com/Ennak-alt/DIS/server/models"
 	"github.com/Ennak-alt/DIS/server/repositories"
@@ -103,6 +104,9 @@ func GetCategories(c *gin.Context) {
 
 	// price
 	categories.PriceFrom, categories.PriceTo = repositories.QueryCategoryMinMax("price")
+
+	// cylinders
+	categories.CylindersFrom, categories.CylindersTo = repositories.QueryCategoryMinMax("cylinders")
 
 	// color
 	categories.Color = repositories.QueryCategory("paint_color")

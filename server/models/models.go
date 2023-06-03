@@ -47,15 +47,17 @@ type User struct {
 }
 
 type Categories struct {
-	Cartype      []string `json:"cartype"`
-	PriceFrom    int      `json:"priceFrom"`
-	PriceTo      int      `json:"priceTo"`
-	Color        []string `json:"paint_color"`
-	OdometerFrom int      `json:"odometerFrom"`
-	OdometerTo   int      `json:"odometerTo"`
-	Drive        []string `json:"drive"`
-	Size         []string `json:"size"`
-	Condition    []string `json:"condition"`
-	Fuel         []string `json:"fuel"`
-	Transmission []string `json:"transmission"`
+	Cartype       []string `json:"cartype"`
+	PriceFrom     int      `json:"priceFrom"`
+	PriceTo       int      `json:"priceTo"`
+	CylindersFrom int      `json:"cylindersFrom"`
+	CylindersTo   int      `json:"cylindersTo"`
+	Color         []string `json:"paint_color"`
+	OdometerFrom  int      `json:"odometerFrom"`
+	OdometerTo    int      `json:"odometerTo"`
+	Drive         []string `json:"drive"`
+	Size          []string `json:"size"`
+	Condition     []string `json:"condition"`
+	Fuel          []string `json:"fuel"`
+	Transmission  []string `json:"transmission"`
 }
