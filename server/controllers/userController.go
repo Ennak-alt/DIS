@@ -111,7 +111,7 @@ func GetSeller(c *gin.Context) {
 				seller.Address,
 				seller.Phone));	
 	} else {
-		err := db.QueryRow(`SELECT DISTINCT ON (userdata.uid) userdata.*, COALESCE(AVG(rating), -1) AS rating, COUNT(rating) AS num_ratings, address, phone FROM (SELECT uid, fname, lname, email FROM users WHERE uid = $1) userdata LEFT JOIN ratings ON ratee_id = uid AND rater_id != $2 GROUP BY uid, fname, lname, email, address, phone;`, id, requester).Scan(
+		err := db.QueryRow(`SELECT DISTINCT ON (userdata.uid) userdata.*, COALESCE(AVG(rating), -1) AS rating, COUNT(rating) AS num_ratings, address, phone FROM (SELECT uid, fname, lname, email FROM users WHERE uid = $1) userdata LEFT JOIN ratings ON ratee_id = uid AND rater_id != $2 NATURAL JOIN sellers GROUP BY uid, fname, lname, email, address, phone;`, id, requester).Scan(
 			&seller.UID,
 			&seller.First_name,
 			&seller.Last_name,
@@ -199,8 +199,8 @@ func Register(c *gin.Context) {
 	db := config.GetDB()
 
 	// TODO: Sanitize
-	sqlStatement2 := `INSERT INTO users(uid, pws, pwh, fname, lname, email, phone) VALUES($1, $2, $3, $4, $5, $6, $7);`
-	_, err := db.Query(sqlStatement2, uid, pws, pwh, fname, lname, email, "0")
+	sqlStatement2 := `INSERT INTO users(uid, pws, pwh, fname, lname, email) VALUES($1, $2, $3, $4, $5, $6);`
+	_, err := db.Query(sqlStatement2, uid, pws, pwh, fname, lname, email)
 
 	if err != nil {
 		c.String(http.StatusOK, "{\"success\":false}")
