@@ -6,14 +6,14 @@ import UserCard from "@/app/user/userCard";
 export function Card(props: {car: Car}) {
     return (
         <Link href ={`/posts/${props.car.id}`}>
-            <div className='mx-10'>
+            <div className='mx-10 mt-10'>
                 <div
                     style={{
                         backgroundImage: `url(/Cars/${props.car.cartype}.jpeg)`,
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'center center',
                         backgroundSize: 'contain',
-                        height:"30em",
+                        height:"25em",
                         width:"30em"}}>
                 </div>
 
