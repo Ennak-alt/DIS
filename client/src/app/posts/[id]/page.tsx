@@ -6,11 +6,11 @@ import CarService, {DefaultCar} from "@/app/api/carService";
 import UserService from "@/app/api/userService";
 
 export default function Page({ params, searchParams }) {
-  const [data, setData] = useState({car: DefaultCar, rec: [DefaultCar], seller: UserService.DefaultUser});
+  const [data, setData] = useState({car: DefaultCar, rec: [DefaultCar], seller: UserService.DefaultSeller});
   useEffect(() => {
     CarService.GetPost(params.id).then(async car => {
       const [rec, seller] = await Promise.all([CarService.GetRecommended(car),
-                                               UserService.GetUser(car.seller_id)]);
+                                               UserService.GetSeller(car.seller_id)]);
       setData({car, rec, seller});
     });
   }, []);

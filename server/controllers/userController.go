@@ -23,12 +23,11 @@ func GetUser(c *gin.Context) {
 	var user models.User
 	requester := services.CheckSession(c.GetHeader("Token"))
 	if requester == -1 {
-		err := db.QueryRow(`SELECT DISTINCT ON (userdata.uid) userdata.*, COALESCE(AVG(rating), -1) AS rating, COUNT(rating) AS num_ratings FROM (SELECT uid, fname, lname, email, phone FROM users WHERE uid = $1) userdata LEFT JOIN ratings ON ratee_id = uid GROUP BY uid, fname, lname, email, phone;`, id).Scan(
+		err := db.QueryRow(`SELECT DISTINCT ON (userdata.uid) userdata.*, COALESCE(AVG(rating), -1) AS rating, COUNT(rating) AS num_ratings FROM (SELECT uid, fname, lname, email FROM users WHERE uid = $1) userdata LEFT JOIN ratings ON ratee_id = uid GROUP BY uid, fname, lname, email;`, id).Scan(
 			&user.UID,
 			&user.First_name,
 			&user.Last_name,
 			&user.Email,
-			&user.Phone,
 			&user.Rating,
 			&user.Num_ratings)
 	
@@ -37,21 +36,19 @@ func GetUser(c *gin.Context) {
 		}
 
 		c.String(http.StatusOK,
-			fmt.Sprintf("{\"uid\":\"%d\",\"name\":\"%s %s\",\"email\":\"%s\",\"phone\":\"%s\",\"rating\":%f,\"numRatings\":%d}",
+			fmt.Sprintf("{\"uid\":\"%d\",\"name\":\"%s %s\",\"email\":\"%s\",\"rating\":%f,\"numRatings\":%d}",
 				user.UID,
 				user.First_name,
 				user.Last_name,
 				user.Email,
-				user.Phone,
 				user.Rating,
 				user.Num_ratings));	
 	} else {
-		err := db.QueryRow(`SELECT DISTINCT ON (userdata.uid) userdata.*, COALESCE(AVG(rating), -1) AS rating, COUNT(rating) AS num_ratings FROM (SELECT uid, fname, lname, email, phone FROM users WHERE uid = $1) userdata LEFT JOIN ratings ON ratee_id = uid AND rater_id != $2 GROUP BY uid, fname, lname, email, phone;`, id, requester).Scan(
+		err := db.QueryRow(`SELECT DISTINCT ON (userdata.uid) userdata.*, COALESCE(AVG(rating), -1) AS rating, COUNT(rating) AS num_ratings FROM (SELECT uid, fname, lname, email FROM users WHERE uid = $1) userdata LEFT JOIN ratings ON ratee_id = uid AND rater_id != $2 GROUP BY uid, fname, lname, email;`, id, requester).Scan(
 			&user.UID,
 			&user.First_name,
 			&user.Last_name,
 			&user.Email,
-			&user.Phone,
 			&user.Rating,
 			&user.Num_ratings)
 	
@@ -66,15 +63,87 @@ func GetUser(c *gin.Context) {
 		}
 
 		c.String(http.StatusOK,
-			fmt.Sprintf("{\"uid\":\"%d\",\"name\":\"%s %s\",\"email\":\"%s\",\"phone\":\"%s\",\"rating\":%f,\"numRatings\":%d,\"userRating\":%d}",
+			fmt.Sprintf("{\"uid\":\"%d\",\"name\":\"%s %s\",\"email\":\"%s\",\"rating\":%f,\"numRatings\":%d,\"userRating\":%d}",
 				user.UID,
 				user.First_name,
 				user.Last_name,
 				user.Email,
-				user.Phone,
 				user.Rating,
 				user.Num_ratings,
 				rating));	
+	}
+}
+
+func GetSeller(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	
+	id := c.Param("id")
+	db := config.GetDB()
+
+	var seller models.Seller
+	requester := services.CheckSession(c.GetHeader("Token"))
+	if requester == -1 {
+		fmt.Printf("GO GO\n");
+		err := db.QueryRow(`SELECT DISTINCT ON (userdata.uid) userdata.*, COALESCE(AVG(rating), -1) AS rating, COUNT(rating) AS num_ratings, address, phone FROM (SELECT uid, fname, lname, email FROM users WHERE uid = $1) userdata LEFT JOIN ratings ON ratee_id = uid NATURAL JOIN sellers GROUP BY uid, fname, lname, email, address, phone;`, id).Scan(
+			&seller.UID,
+			&seller.First_name,
+			&seller.Last_name,
+			&seller.Email,
+			&seller.Rating,
+			&seller.Num_ratings,
+			&seller.Address,
+			&seller.Phone)
+	
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("GO GO\n");
+
+		c.String(http.StatusOK,
+			fmt.Sprintf("{\"uid\":\"%d\",\"name\":\"%s %s\",\"email\":\"%s\",\"phone\":\"%s\",\"rating\":%f,\"numRatings\":%d,\"address\":\"%s\",\"phone\":\"%s\"}",
+				seller.UID,
+				seller.First_name,
+				seller.Last_name,
+				seller.Email,
+				seller.Phone,
+				seller.Rating,
+				seller.Num_ratings,
+				seller.Address,
+				seller.Phone));	
+	} else {
+		err := db.QueryRow(`SELECT DISTINCT ON (userdata.uid) userdata.*, COALESCE(AVG(rating), -1) AS rating, COUNT(rating) AS num_ratings, address, phone FROM (SELECT uid, fname, lname, email FROM users WHERE uid = $1) userdata LEFT JOIN ratings ON ratee_id = uid AND rater_id != $2 GROUP BY uid, fname, lname, email, address, phone;`, id, requester).Scan(
+			&seller.UID,
+			&seller.First_name,
+			&seller.Last_name,
+			&seller.Email,
+			&seller.Phone,
+			&seller.Rating,
+			&seller.Num_ratings,
+			&seller.Address,
+			&seller.Phone)
+	
+		if err != nil {
+			panic(err)
+		}
+
+		var rating int
+		err = db.QueryRow("SELECT rating FROM ratings WHERE rater_id=$1 AND ratee_id=$2;", requester, id).Scan(&rating)
+		if err != nil {
+			rating = -1
+		}
+
+		c.String(http.StatusOK,
+			fmt.Sprintf("{\"uid\":\"%d\",\"name\":\"%s %s\",\"email\":\"%s\",\"phone\":\"%s\",\"rating\":%f,\"numRatings\":%d,\"userRating\":%d,\"address\":\"%s\",\"phone\":\"%s\"}",
+				seller.UID,
+				seller.First_name,
+				seller.Last_name,
+				seller.Email,
+				seller.Phone,
+				seller.Rating,
+				seller.Num_ratings,
+				rating,
+				seller.Address,
+				seller.Phone));	
 	}
 }
 

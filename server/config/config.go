@@ -78,6 +78,11 @@ func SetupDB() {
 
 	str = strings.Replace(str, "usersfile", str2_u, 1)
 
+	ex_s, _ := filepath.Abs("./server/config/sellers.csv")
+	str2_s := "'" + filepath.Dir(ex_s) + "/sellers.csv" + "'"
+
+	str = strings.Replace(str, "sellersfile", str2_s, 1)
+
 	ex_r, _ := filepath.Abs("./server/config/ratings.csv")
 	str2_r := "'" + filepath.Dir(ex_r) + "/ratings.csv" + "'"
 
