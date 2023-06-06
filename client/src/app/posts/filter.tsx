@@ -9,6 +9,10 @@ interface props {
 
 
 export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}: props) => {
+    const reset = () => {
+        setCats({...usedCats, [cat]: []})
+    }
+    
     const setCategory = (catname: string) => {
         let c = (usedCats[cat]) as string[]
 
@@ -55,6 +59,7 @@ export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}:
                         <button
                             type="button"
                             className="text-sm text-gray-900 underline underline-offset-4"
+                            onClick={reset}
                         >
                             Reset
                         </button>

@@ -12,14 +12,16 @@ interface props {
 
 
 export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCats, setCats, unit }: props) => {
+    const reset = () => {
+        setCats({ ...usedCats, [`${cat}From`]: 0, [`${cat}To`]: 0})
+    }
+    
     const setMin = (min: number) => {
         setCats({ ...usedCats, [`${cat}From`]: min})
-        console.log("hello")
     }
 
     const setMax = (max: number) => {
         setCats({ ...usedCats, [`${cat}To`]: max})
-        console.log("hello2")
     }
 
     let unit_string = ""
@@ -76,6 +78,7 @@ export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCa
                             <button
                                 type="button"
                                 className="text-sm text-gray-900 underline underline-offset-4"
+                                onClick={reset}
                             >
                                 Reset
                             </button>
@@ -91,6 +94,7 @@ export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCa
                                         id="FilterPriceFrom"
                                         placeholder="From"
                                         className="w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+                                        value={usedCats[`${cat}From`]}
                                         onChange={(evt) => setMin(evt.currentTarget.valueAsNumber)}
                                     />
                                 </label>
@@ -102,6 +106,7 @@ export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCa
                                         type="number"
                                         id="FilterPriceTo"
                                         placeholder="To"
+                                        value={usedCats[`${cat}To`]}
                                         className="w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
                                         onChange={(evt) => setMax(evt.currentTarget.valueAsNumber)}
                                     />
