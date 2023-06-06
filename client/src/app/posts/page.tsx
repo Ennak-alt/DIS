@@ -115,7 +115,7 @@ export default function Page() {
                         })}
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
-                {cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}
+                {!Array.isArray(cars) || cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}
             </div>
             <Pagination page={page} setPage={setPage} setPrev={setPrev}/>
 
