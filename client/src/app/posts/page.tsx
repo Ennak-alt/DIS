@@ -22,6 +22,7 @@ const categoryNames = [
 
 export default function Page() {
     const [cars, setCars] = useState<Car[]>([])
+    const [count, setCount] = useState<number>(0)
     const [allcategories, setAllCategories] = useState<ICarCategories | null>(null)
     const [usedCategories, setUsedCategories] = useState<CarCategories>(defaultCategories)
     const [categoryChange, setCategoryChange] = useState<boolean>(false)
@@ -40,6 +41,9 @@ export default function Page() {
         CarService.GetCategories().then(async categories => {
             setAllCategories(categories)
         })
+    }, [])
+
+    useEffect(() => {
 
         window.scrollTo(0, 0)
         var idx = "?"
@@ -72,14 +76,11 @@ export default function Page() {
             )
         }, "")
 
-        console.log(search)
-
-        // let specfic_search = (searchParams.cartype != undefined) ? '?cartype=' + searchParams.cartype : ""
-        fetch('http://localhost:8088/posts/' + idx + search + searchSlider)
+        fetch('http://localhost:8088/posts/' + idx + search)
             .then(response => response.json())
             .then(json => {
-                setCars(json)
-                console.log(json)
+                setCars(json["cars"])
+                setCount(json["count"])
             })
             .catch(error => console.error(error));
         setCategoryChange(false)
@@ -92,8 +93,6 @@ export default function Page() {
                     if (value === "price" || value === "odometer" || value === "cylinders") {
                         return (
                             <div>
-                                {/* {allcategories[value+"From"]}
-                                {allcategories[value+"To"]} */}
                                 <NumericFilter
                                     cat={value}
                                     usedCats={usedCategories}
@@ -115,8 +114,9 @@ export default function Page() {
                             }
                         })}
             </div>
+            <p>{count == undefined ? "Loading..." : `Found ${count} cars`}</p>
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
-                {!Array.isArray(cars) || cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}
+                {!Array.isArray(cars) || cars.length === 0 ? "" : cars.map((car) => <Card car={car} />)}
             </div>
             <Pagination page={page} setPage={setPage} setPrev={setPrev}/>
 

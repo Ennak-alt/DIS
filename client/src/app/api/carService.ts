@@ -83,11 +83,11 @@ export const defaultCategories : CarCategories = {
   paint_color: [],
   odometerFrom: 0,
   odometerTo: 0,
-  drive: [], 
-  size: [], 
-  condition: [], 
-  fuel: [], 
-  transmission: [], 
+  drive: [],
+  size: [],
+  condition: [],
+  fuel: [],
+  transmission: [],
 }
 
 export interface ICarCategories {
@@ -136,6 +136,6 @@ export default class CarService {
       rec_cars = rec_cars.concat(await fetch(`http://localhost:8088/posts/?id=${car.id}&cartype=${car.cartype}`)
         .then(res => res.json()));
     }
-    return rec_cars.slice(0, 6)
+    return rec_cars[0]["cars"].slice(0, 6)
   }
 }

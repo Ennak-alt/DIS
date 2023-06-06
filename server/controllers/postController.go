@@ -49,6 +49,11 @@ func GetPost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
+type GPStruct struct {
+	Count int           `json:"count"`
+	Cars  []models.Post `json:"cars"`
+}
+
 func GetPosts(c *gin.Context) {
 
 	c.Header("Access-Control-Allow-Origin", "*")
@@ -83,7 +88,12 @@ func GetPosts(c *gin.Context) {
 		idx = idxInt
 	}
 
-	posts, err := repositories.QueryPosts(idx, c.Request.URL.Query())
+	posts, count, err := repositories.QueryPosts(idx, c.Request.URL.Query())
+
+	var gp GPStruct
+
+	gp.Cars = posts
+	gp.Count = count
 
 	if err != nil {
 		fmt.Println(err)
@@ -91,7 +101,7 @@ func GetPosts(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, posts)
+	c.JSON(http.StatusOK, gp)
 }
 
 func GetCategories(c *gin.Context) {
