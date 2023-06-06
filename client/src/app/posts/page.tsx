@@ -27,7 +27,6 @@ export default function Page() {
     const [categoryChange, setCategoryChange] = useState<boolean>(false)
     const [page, setPage] = useState(1)
     const [prev, setPrev] = useState(false)
-    const [searchSlider, setSearchSlider] = useState("")
 
     useEffect(() => {
         console.log("changed")
@@ -65,7 +64,7 @@ export default function Page() {
                 if (usedCategories[cur1+"To"] !== 0) {
                     return acc1 + `${cur1}=${usedCategories[cur1+"From"]},${usedCategories[cur1+"To"]}&`
                 }
-                return acc1 + ""
+                return acc1
             }
             return (
                 acc1 + (usedCategories[cur1] as string[]).reduce((acc2, cur2) => {
@@ -78,7 +77,7 @@ export default function Page() {
         console.log(search)
 
         // let specfic_search = (searchParams.cartype != undefined) ? '?cartype=' + searchParams.cartype : ""
-        fetch('http://localhost:8088/posts/' + idx + search + searchSlider)
+        fetch('http://localhost:8088/posts/' + idx + search)
             .then(response => response.json())
             .then(json => {
                 setCars(json)
@@ -121,7 +120,7 @@ export default function Page() {
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
                 {!Array.isArray(cars) || cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}
             </div>
-            <Pagination page={page} setPage={setPage} setPrev={setPrev}/>
+            <Pagination page={page} setPage={setPage} setPrev={setPrev} nextPage={!Array.isArray(cars) || cars.length !== 10}/>
 
         </div>
     )
@@ -129,16 +128,17 @@ export default function Page() {
 
 interface props {
     page: number,
-    setPage: React.Dispatch<React.SetStateAction<number>>
-    setPrev: React.Dispatch<React.SetStateAction<boolean>>
+    setPage: React.Dispatch<React.SetStateAction<number>>,
+    setPrev: React.Dispatch<React.SetStateAction<boolean>>,
+    nextPage: boolean,
 }
 
-const Pagination = ({page, setPage, setPrev}: props) => {
+const Pagination = ({page, setPage, setPrev, nextPage}: props) => {
     return (
         <div
             className="inline-flex items-center justify-center rounded bg-blue-600 py-1 text-white"
         >
-            <button
+            { page != 1 && <button
                 onClick={() => {if (page != 1) {setPage(page-1); setPrev(true)}}}
                 className="inline-flex h-8 w-8 items-center justify-center rtl:rotate-180"
                 disabled={page == 1}
@@ -156,7 +156,7 @@ const Pagination = ({page, setPage, setPrev}: props) => {
                         clipRule="evenodd"
                     />
                 </svg>
-            </button>
+            </button>}
 
             <span className="h-4 w-px bg-white/25" aria-hidden="true"></span>
 
@@ -174,9 +174,10 @@ const Pagination = ({page, setPage, setPrev}: props) => {
 
             <span className="h-4 w-px bg-white/25"></span>
 
-            <button
+            {!nextPage && <button
                 onClick={() => {setPage(page+1); setPrev(false)}}
                 className="inline-flex h-8 w-8 items-center justify-center rtl:rotate-180"
+                disabled={nextPage}
             >
                 <span className="sr-only">Next Page</span>
                 <svg
@@ -191,7 +192,7 @@ const Pagination = ({page, setPage, setPrev}: props) => {
                         clipRule="evenodd"
                     />
                 </svg>
-            </button>
+            </button>}
         </div>
     )
 }
