@@ -7,6 +7,7 @@ interface props {
     maxValue: number,
     usedCats: CarCategories,
     setCats: React.Dispatch<React.SetStateAction<CarCategories>>,
+    unit: string
 }
 
 
