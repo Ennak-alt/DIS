@@ -18,8 +18,8 @@ CREATE TABLE users (
     phone VARCHAR(15), -- International standards allow up to 15 digits
 
     -- Unique constraints
-    PRIMARY KEY (uid)--,
-    --CONSTRAINT AK_email UNIQUE(email)
+    PRIMARY KEY (uid),
+    CONSTRAINT AK_email UNIQUE(email)
 );
 
 COPY users FROM usersfile DELIMITER ';';
@@ -48,7 +48,7 @@ CREATE TABLE post (
     idx INT,
     id VARCHAR(50),
     region VARCHAR(50),
-    price INT,
+    price BIGINT,
     caryear INT,
     manufacturer VARCHAR(50),
     model VARCHAR(400),

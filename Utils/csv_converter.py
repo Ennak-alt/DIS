@@ -3,17 +3,18 @@ import math
 
 df = pd.read_csv('vehicles.csv')
 
-df.pop('url')
-df.pop('region_url')
-df.pop('image_url')
-df.pop('lat')
-df.pop('long')
-df.pop('title_status')
+#df.pop('url')
+#df.pop('region_url')
+#df.pop('image_url')
+#df.pop('lat')
+#df.pop('long')
+#df.pop('title_status')
 
 newdf = []
 for index, row in df.iterrows(): 
     if str(row['region']) == "nan":
         df.at[index, 'region'] = "auburn"
+    df.at[index, 'price'] = str(row['price'])[:5]
     if str(row['year']) == "nan":
         df.at[index, 'year'] = 2010
     df.at[index, 'year'] = int(df['year'][index])
@@ -21,6 +22,8 @@ for index, row in df.iterrows():
         df.at[index, 'manufacturer'] = "gmc"
     if str(row['model']) == "nan":
         df.at[index, 'model'] = "unknown"
+    else:
+        df.at[index, 'model'] = row['model'].replace(';', '')
     if str(row['condition']) == "nan":
         df.at[index,'condition'] = "good"
     if str(row['cylinders']) == "nan":
@@ -46,11 +49,12 @@ for index, row in df.iterrows():
         df.at[index, 'paint_color'] = "blue"
     if str(row['description']) != "nan":
         df.at[index, 'description'] = row['description'].replace(';', '')
-    if index == 10100:
-        break
-newdf = df[27:].head(10000)
+#    if index == 10100:
+#        break
+#newdf = df[27:].head(10000)
+newdf = df
 newdf['year'] = newdf['year'].fillna(0).astype(int)
 newdf['odometer'] = newdf['odometer'].fillna(0).astype(int)
 newdf['cylinders'] = newdf['cylinders'].fillna(0).astype(int)
 
-print(newdf.to_csv("cars.csv", sep = ';'))
+print(newdf.to_csv("oldcars.csv", sep = ';'))
