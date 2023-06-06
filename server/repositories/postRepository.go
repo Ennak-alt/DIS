@@ -95,8 +95,7 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 		sql :=
 			`SELECT *
 			FROM post
-			ORDER BY idx DESC
-			LIMIT 10`
+			ORDER BY idx DESC`
 
 		rows, err = db.Query(sql)
 
@@ -108,8 +107,7 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 				FROM (SELECT *
 					FROM post
 					WHERE %s
-					ORDER BY idx ASC
-					LIMIT 10) AS X
+					ORDER BY idx ASC) AS X
 				ORDER BY idx DESC`,
 				queryString[4:],
 			)
@@ -121,8 +119,7 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 				`SELECT *
 				FROM post
 				WHERE %s
-				ORDER BY idx DESC
-				LIMIT 10`,
+				ORDER BY idx DESC`,
 				queryString[4:],
 			)
 		fmt.Println(sql)
@@ -169,10 +166,9 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 		if err != nil {
 			return posts, err
 		}
-
 		posts = append(posts, post)
 	}
-
+	posts[0].Count = len(posts)
 	err = rows.Err()
 	return posts, err
 }

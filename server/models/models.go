@@ -3,6 +3,7 @@ package models
 // TODO: Split to two files
 
 type Post struct {
+	Count          int    `json:"count"`
 	Idx            int    `json:"idx"`
 	Id             string `json:"id"`
 	Region         string `json:"region"`
