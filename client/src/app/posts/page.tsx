@@ -100,6 +100,7 @@ export default function Page() {
                                     minValue = {allcategories[value+"From"] as number}
                                     maxValue = {allcategories[value+"To"] as number}
                                     setCats={setUsedCategories}
+                                    unit={value}
                                     />
                             </div>
                         )

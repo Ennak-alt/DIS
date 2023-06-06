@@ -7,10 +7,11 @@ interface props {
     maxValue: number,
     usedCats: CarCategories,
     setCats: React.Dispatch<React.SetStateAction<CarCategories>>,
+    unit: string
 }
 
 
-export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCats, setCats }: props) => {
+export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCats, setCats, unit }: props) => {
     const setMin = (min: number) => {
         setCats({ ...usedCats, [`${cat}From`]: min})
         console.log("hello")
@@ -20,6 +21,11 @@ export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCa
         setCats({ ...usedCats, [`${cat}To`]: max})
         console.log("hello2")
     }
+
+    let unit_string = ""
+    if (unit == "price") {unit_string = "$"}
+    if (unit == "cylinders") {unit_string = "#"}
+    if (unit == "odometer") {unit_string = "mi"}
 
     return (
         <div className="relative">
@@ -67,7 +73,7 @@ export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCa
                         <div className="border-t border-gray-200 p-4">
                             <div className="flex justify-between gap-4">
                                 <label htmlFor="FilterPriceFrom" className="flex items-center gap-2">
-                                    <span className="text-sm text-gray-600">$</span>
+                                    <span className="text-sm text-gray-600">{unit_string}</span>
 
                                     <input
                                         type="number"
@@ -79,7 +85,7 @@ export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCa
                                 </label>
 
                                 <label htmlFor="FilterPriceTo" className="flex items-center gap-2">
-                                    <span className="text-sm text-gray-600">$</span>
+                                    <span className="text-sm text-gray-600">{unit_string}</span>
 
                                     <input
                                         type="number"
