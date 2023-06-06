@@ -32,7 +32,7 @@ export default function Page(params: {params: {id: string}, searchParams: any}) 
                 </div>
             </section>
             <div className='pt-5'>
-                <Recommended cars={data.cars}></Recommended>
+                <Recommended cars={data.cars["cars"] == undefined ? [DefaultCar, DefaultCar] : data.cars["cars"]}></Recommended>
             </div>
         </div>
     )
