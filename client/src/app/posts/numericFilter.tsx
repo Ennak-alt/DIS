@@ -23,9 +23,19 @@ export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCa
     }
 
     let unit_string = ""
-    if (unit == "price") {unit_string = "$"}
-    if (unit == "cylinders") {unit_string = "#"}
-    if (unit == "odometer") {unit_string = "mi"}
+    let unit_desc = ""
+    if (unit == "price") {
+        unit_string = "$"
+        unit_desc = "The highest price is $" + maxValue + "."
+    }
+    if (unit == "cylinders") {
+        unit_string = "#"
+        unit_desc = "The greatest number of cylinders is " + maxValue + "."
+    }
+    if (unit == "odometer") {
+        unit_string = "mi"
+        unit_desc = "The highest milage is " + maxValue + "mi."
+    }
 
     return (
         <div className="relative">
@@ -59,7 +69,8 @@ export const NumericFilter: React.FC<props> = ({ cat, minValue, maxValue, usedCa
                     <div className="w-96 rounded border border-gray-200 bg-white">
                         <header className="flex items-center justify-between p-4">
                             <span className="text-sm text-gray-700">
-                               {`The highest price is ${maxValue}`}
+                                {unit_desc}
+                               {/* {`The ${unit_desc} is ${maxValue}`} */}
                             </span>
 
                             <button
