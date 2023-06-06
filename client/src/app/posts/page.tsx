@@ -5,6 +5,7 @@ import CarService, { Car, ICarCategories, CarCategories, defaultCategories} from
 import { Filter, FilterMINMAX } from './filter';
 import { all } from 'axios';
 import Link from 'next/link';
+import { NumericFilter } from './numericFilter';
 
 const categoryNames = [
     "cartype",
@@ -59,7 +60,7 @@ export default function Page() {
             console.log(acc1)
             if (cur1 === "price" || cur1 === "odometer" || cur1 === "cylinders") {
                 if (usedCategories[cur1+"To"] !== 0) {
-                    return acc1 + `${cur1}=${usedCategories[cur1+"From"]},${cur1+"To"}&`
+                    return acc1 + `${cur1}=${usedCategories[cur1+"From"]},${usedCategories[cur1+"To"]}&`
                 }
                 return acc1 + ""
             }
@@ -93,11 +94,12 @@ export default function Page() {
                             <div>
                                 {/* {allcategories[value+"From"]}
                                 {allcategories[value+"To"]} */}
-                                <FilterMINMAX
+                                <NumericFilter
                                     cat={value}
-                                    minValue = {allcategories[value+"From"] as string[]}
-                                    maxValue = {allcategories[value+"To"] as string[]}
-                                    setComponent={setSearchSlider}
+                                    usedCats={usedCategories}
+                                    minValue = {allcategories[value+"From"] as number}
+                                    maxValue = {allcategories[value+"To"] as number}
+                                    setCats={setUsedCategories}
                                     />
                             </div>
                         )

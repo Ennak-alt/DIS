@@ -17,7 +17,7 @@ export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}:
         } else {
             c.push(catname)
         }
-        setCats({...usedCats, cat: c})
+        setCats({...usedCats, [cat]: c})
     }
 
     return (

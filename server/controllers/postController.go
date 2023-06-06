@@ -53,23 +53,23 @@ func GetPosts(c *gin.Context) {
 
 	c.Header("Access-Control-Allow-Origin", "*")
 
-	var post models.Post
-	post.Id = c.DefaultQuery("id", "")
-	post.Cartype = c.DefaultQuery("car_type", "")
-	post.Paint_color = c.DefaultQuery("paint_color", "")
-	post.Seller_id = c.DefaultQuery("seller_id", "")
-	var price = c.DefaultQuery("price", "-1")
+	// var post models.Post
+	// post.Id = c.DefaultQuery("id", "")
+	// post.Cartype = c.DefaultQuery("car_type", "")
+	// post.Paint_color = c.DefaultQuery("paint_color", "")
+	// post.Seller_id = c.DefaultQuery("seller_id", "")
+	// var price = c.DefaultQuery("price", "-1")
 
-	var err1 error
-	post.Price, err1 = strconv.Atoi(price)
+	// var err1 error
+	// post.Price, err1 = strconv.Atoi(price)
 
-	if post.Price != -1 {
-		post.Price += 10000
-	}
+	// if post.Price != -1 {
+	// 	post.Price += 10000
+	// }
 
-	if err1 != nil {
-		c.JSON(http.StatusBadRequest, "Price could not be converted to int.")
-	}
+	// if err1 != nil {
+	// 	c.JSON(http.StatusBadRequest, "Price could not be converted to int.")
+	// }
 
 	idxStr := c.DefaultQuery("idx", "")
 	idx := -1

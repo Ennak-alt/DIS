@@ -42,17 +42,17 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 			fmt.Println("hello", queryString)
 			number += 1
 
-		case "price":
-			priceRange := strings.Split(val[0], ",")
-			if len(priceRange) != 2 {
+		case "price", "odometer", "cylinders":
+			Range := strings.Split(val[0], ",")
+			if len(Range) != 2 {
 				continue
 			}
-			from, err1 := strconv.Atoi(priceRange[0])
-			to, err2 := strconv.Atoi(priceRange[1])
+			from, err1 := strconv.Atoi(Range[0])
+			to, err2 := strconv.Atoi(Range[1])
 			if err1 != nil || err2 != nil {
 				continue
 			}
-			queryString += fmt.Sprintf(" $%d <= price AND price <= $%d )", number, number+1)
+			queryString += fmt.Sprintf(" $%d <= %s AND %s <= $%d )", number, key, key, number+1)
 			number += 2
 			queryArguments = append(queryArguments, from, to)
 			continue
