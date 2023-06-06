@@ -77,15 +77,18 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 	return queryString, queryArguments
 }
 
-func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error) {
+func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, int, error) {
 	db := config.GetDB()
 
 	for key, val := range queryStrings {
 		fmt.Println(key, val)
 	}
 
+	count := 0
+
 	var (
 		rows *sql.Rows
+		row  *sql.Row
 		err  error
 	)
 
@@ -95,35 +98,84 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 		sql :=
 			`SELECT *
 			FROM post
-			ORDER BY idx DESC`
+			ORDER BY idx DESC
+			LIMIT 10`
 
 		rows, err = db.Query(sql)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		sql =
+			`SELECT COUNT(*)
+			FROM post`
+
+		row = db.QueryRow(sql)
+		err = row.Scan(&count)
+		if err != nil {
+			fmt.Println(err)
+		}
 
 	} else if val, ok := queryStrings["idx_order"]; ok && len(val) != 0 && val[0] == "prev" {
 		sql :=
 			fmt.Sprintf(
-				`
-				SELECT *
+				`SELECT *
 				FROM (SELECT *
 					FROM post
 					WHERE %s
-					ORDER BY idx ASC) AS X
+					ORDER BY idx ASC
+					LIMIT 10) AS X
 				ORDER BY idx DESC`,
 				queryString[4:],
 			)
 		fmt.Println(sql)
 		rows, err = db.Query(sql, queryParams...)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		sql =
+			fmt.Sprintf(
+				`SELECT COUNT(*)
+				FROM post
+				WHERE %s`,
+				queryString[4:],
+			)
+
+		row = db.QueryRow(sql, queryParams...)
+		err = row.Scan(&count)
+		if err != nil {
+			fmt.Println(err)
+		}
+
 	} else {
 		sql :=
 			fmt.Sprintf(
 				`SELECT *
 				FROM post
 				WHERE %s
-				ORDER BY idx DESC`,
+				ORDER BY idx DESC
+				LIMIT 10`,
 				queryString[4:],
 			)
 		fmt.Println(sql)
 		rows, err = db.Query(sql, queryParams...)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		sql =
+			fmt.Sprintf(
+				`SELECT COUNT(*)
+				FROM post
+				WHERE %s`,
+				queryString[4:],
+			)
+		row = db.QueryRow(sql, queryParams...)
+		err = row.Scan(&count)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
 	posts := make([]models.Post, 0)
@@ -132,7 +184,7 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 
 	if err != nil {
 		fmt.Println(err)
-		return posts, err
+		return posts, count, err
 	}
 
 	fmt.Println("Going through rows2")
@@ -164,13 +216,12 @@ func QueryPosts(idx int, queryStrings map[string][]string) ([]models.Post, error
 			&post.Seller_id)
 
 		if err != nil {
-			return posts, err
+			return posts, count, err
 		}
 		posts = append(posts, post)
 	}
-	posts[0].Count = len(posts)
 	err = rows.Err()
-	return posts, err
+	return posts, count, err
 }
 
 func QueryCategory(cat string) []string {
