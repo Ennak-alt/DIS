@@ -5,15 +5,18 @@ import { Car } from "../api/carService"
 export function Card(props: {car: Car}) {
     return (
         <Link href ={`/posts/${props.car.id}`}>
-            <div className='px-5'>
-            <Image
-                width={500}
-                height={500}
-                src={`/Cars/${props.car.cartype}.jpeg`}
-                alt={`${props.car.cartype}`}
-            />
+            <div className='mx-5'>
 
-            <div className="mt-2">
+            <div style={{
+                    backgroundImage: `url(/Cars/${props.car.cartype}.jpeg)`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center center',
+                    backgroundSize: 'contain',
+                    height:"30em",
+                    width:"30em"}}>
+            </div>
+
+            <div className="mt-2" style={{width:"30em"}}>
                 <div>
                     <dd className="font-medium">{props.car.manufacturer}, {props.car.model}</dd>
                 </div>
@@ -48,5 +51,6 @@ export function Card(props: {car: Car}) {
             </div>
             </div>
         </Link>
+
     )
 }
