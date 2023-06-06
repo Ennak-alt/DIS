@@ -15,12 +15,14 @@ export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}:
     
     const setCategory = (catname: string) => {
         let c = (usedCats[cat]) as string[]
-
+        console.log(c)
+        console.log(c.includes(catname))
         if (c.includes(catname)) {
-            c = c.splice(c.indexOf(catname, 1))
+            c.splice(c.indexOf(catname), 1)
         } else {
             c.push(catname)
         }
+        console.log(c)
         setCats({...usedCats, [cat]: c})
     }
 

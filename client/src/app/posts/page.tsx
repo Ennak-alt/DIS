@@ -40,6 +40,9 @@ export default function Page() {
         CarService.GetCategories().then(async categories => {
             setAllCategories(categories)
         })
+    }, [])
+
+    useEffect(() => {
 
         window.scrollTo(0, 0)
         var idx = "?"
