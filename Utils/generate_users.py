@@ -26,7 +26,7 @@ def random_phone():
 
 usersfile = open("./users.csv", "w")
 ratingsfile = open("./ratings.csv", "w")
-carsfilelines = sum(1 for _ in open("./oldcars.csv", "r"))
+carsfilelines = sum(1 for _ in open("./oldcars.csv", "r", encoding="utf8"))
 rateeId = 0
 uid = int(sys.maxsize / 4)
 
@@ -50,21 +50,26 @@ for i in range(NUM_USERS):
     # Contact info
     usersfile.write(fake.first_name() + ";")
     usersfile.write(fake.last_name() + ";")
-    usersfile.write(fake.email() + ";")
+    usersfile.write(str(uid) + "@test.com;")
     usersfile.write(random_phone() + "\n")
 
     # Ratings
     if rateeId != 0 and random.randrange(5) < 3:
-            min_rating = int(str(rateeId)[-1]) % 4
-            max_rating = int(str(rateeId)[-1]) % 3 + 4
-            ratingsfile.write("%d;%d;%d\n" % (uid, rateeId, random.randrange(min_rating, max_rating)))
+        min_rating = int(str(rateeId)[-1]) % 3 + 1
+        max_rating = int(str(rateeId)[-1]) % 3 + 3
+        ratingsfile.write("%d;%d;%d\n" % (uid, rateeId, random.randrange(min_rating, max_rating)))
 
     if random.randrange(10) == 0:
         rateeId = uid
         while len(sellers) < carsfilelines and random.randrange(3) < 2:
             sellers.append(uid)
 
-newcarsfile = open("./cars.csv", "w")
-for line in open("./oldcars.csv", "r"):
+newcarsfile = open("./cars.csv", "w", encoding="utf8")
+first = True
+for line in open("./oldcars.csv", "r", encoding="utf8"):
+    if first:
+        first = False
+        continue
+
     newcarsfile.write(line[:-1])
     newcarsfile.write(";%d\n" % sellers[random.randrange(len(sellers))])
