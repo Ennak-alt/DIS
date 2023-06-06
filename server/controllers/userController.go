@@ -83,7 +83,6 @@ func GetSeller(c *gin.Context) {
 	var seller models.Seller
 	requester := services.CheckSession(c.GetHeader("Token"))
 	if requester == -1 {
-		fmt.Printf("GO GO\n");
 		err := db.QueryRow(`SELECT DISTINCT ON (userdata.uid) userdata.*, COALESCE(AVG(rating), -1) AS rating, COUNT(rating) AS num_ratings, address, phone FROM (SELECT uid, fname, lname, email FROM users WHERE uid = $1) userdata LEFT JOIN ratings ON ratee_id = uid NATURAL JOIN sellers GROUP BY uid, fname, lname, email, address, phone;`, id).Scan(
 			&seller.UID,
 			&seller.First_name,
@@ -97,7 +96,6 @@ func GetSeller(c *gin.Context) {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Printf("GO GO\n");
 
 		c.String(http.StatusOK,
 			fmt.Sprintf("{\"uid\":\"%d\",\"name\":\"%s %s\",\"email\":\"%s\",\"phone\":\"%s\",\"rating\":%f,\"numRatings\":%d,\"address\":\"%s\",\"phone\":\"%s\"}",
@@ -116,7 +114,6 @@ func GetSeller(c *gin.Context) {
 			&seller.First_name,
 			&seller.Last_name,
 			&seller.Email,
-			&seller.Phone,
 			&seller.Rating,
 			&seller.Num_ratings,
 			&seller.Address,
