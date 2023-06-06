@@ -91,7 +91,7 @@ func GetPosts(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, posts)
+	c.JSON(http.StatusOK, posts[0:10])
 }
 
 func GetCategories(c *gin.Context) {

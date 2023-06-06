@@ -74,14 +74,10 @@ export default function Page() {
             )
         }, "")
 
-        console.log(search)
-
-        // let specfic_search = (searchParams.cartype != undefined) ? '?cartype=' + searchParams.cartype : ""
         fetch('http://localhost:8088/posts/' + idx + search)
             .then(response => response.json())
             .then(json => {
                 setCars(json)
-                console.log(json)
             })
             .catch(error => console.error(error));
         setCategoryChange(false)
@@ -94,8 +90,6 @@ export default function Page() {
                     if (value === "price" || value === "odometer" || value === "cylinders") {
                         return (
                             <div>
-                                {/* {allcategories[value+"From"]}
-                                {allcategories[value+"To"]} */}
                                 <NumericFilter
                                     cat={value}
                                     usedCats={usedCategories}
@@ -117,8 +111,9 @@ export default function Page() {
                             }
                         })}
             </div>
+            <p>{cars[0]?.count == undefined ? "Loading..." : `Found ${cars[0].count} cars`}</p>
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
-                {!Array.isArray(cars) || cars.length === 0 ? "Loading..." : cars.map((car) => <Card car={car} />)}
+                {!Array.isArray(cars) || cars.length === 0 ? "" : cars.map((car) => <Card car={car} />)}
             </div>
             <Pagination page={page} setPage={setPage} setPrev={setPrev} nextPage={!Array.isArray(cars) || cars.length !== 10}/>
 

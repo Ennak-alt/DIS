@@ -1,4 +1,5 @@
 export interface Car {
+  count: number,
   idx: number,
   id: string,
   region: string,
@@ -83,11 +84,11 @@ export const defaultCategories : CarCategories = {
   paint_color: [],
   odometerFrom: 0,
   odometerTo: 0,
-  drive: [], 
-  size: [], 
-  condition: [], 
-  fuel: [], 
-  transmission: [], 
+  drive: [],
+  size: [],
+  condition: [],
+  fuel: [],
+  transmission: [],
 }
 
 export interface ICarCategories {
