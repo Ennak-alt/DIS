@@ -22,6 +22,7 @@ const categoryNames = [
 
 export default function Page() {
     const [cars, setCars] = useState<Car[]>([])
+    const [count, setCount] = useState<number>(0)
     const [allcategories, setAllCategories] = useState<ICarCategories | null>(null)
     const [usedCategories, setUsedCategories] = useState<CarCategories>(defaultCategories)
     const [categoryChange, setCategoryChange] = useState<boolean>(false)
@@ -77,7 +78,8 @@ export default function Page() {
         fetch('http://localhost:8088/posts/' + idx + search)
             .then(response => response.json())
             .then(json => {
-                setCars(json)
+                setCars(json["cars"])
+                setCount(json["count"])
             })
             .catch(error => console.error(error));
         setCategoryChange(false)
@@ -111,7 +113,7 @@ export default function Page() {
                             }
                         })}
             </div>
-            <p>{cars[0]?.count == undefined ? "Loading..." : `Found ${cars[0].count} cars`}</p>
+            <p>{count == undefined ? "Loading..." : `Found ${count} cars`}</p>
             <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
                 {!Array.isArray(cars) || cars.length === 0 ? "" : cars.map((car) => <Card car={car} />)}
             </div>

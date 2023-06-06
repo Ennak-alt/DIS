@@ -1,5 +1,4 @@
 export interface Car {
-  count: number,
   idx: number,
   id: string,
   region: string,
