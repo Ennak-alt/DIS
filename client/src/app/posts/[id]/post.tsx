@@ -79,8 +79,8 @@ export default function Post (props: {car: Car, seller: SellerData}) {
 
 const Expand = ({desc}) => {
     let [expanded, setExpanded] = useState(true)
-    if (desc.length <= 310) return (<div>{desc}</div>)
-    let text = expanded ? desc.substring(0, 310) : desc
+    if (desc.length <= 510) return (<div>{desc}</div>)
+    let text = expanded ? desc.substring(0, 510) : desc
     return (
         <>
         <div>{text}...</div>
