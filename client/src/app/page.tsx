@@ -121,8 +121,9 @@ export default function Page() {
             <p>{count == undefined ? "Loading..." : `Found ${count} cars`}</p>
             <div className='grid grid-cols-1 lg:grid-cols-2 place-content-center'>
                 {!Array.isArray(cars) || cars.length === 0 ? "" : cars.map((car) => <Card car={car} />)}
-            </div>
+            </div><br/><br/>
             <Pagination count={count} page={page} setPage={setPage} setPrev={setPrev}/>
+            <br/><br/>
 
         </div>
     )
