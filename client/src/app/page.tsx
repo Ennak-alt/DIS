@@ -121,24 +121,25 @@ export default function Page() {
             <div className='grid grid-cols-1 lg:grid-cols-2 place-content-center'>
                 {!Array.isArray(cars) || cars.length === 0 ? "" : cars.map((car) => <Card car={car} />)}
             </div>
-            <Pagination page={page} setPage={setPage} setPrev={setPrev}/>
+            <Pagination count={count} page={page} setPage={setPage} setPrev={setPrev}/>
 
         </div>
     )
 }
 
 interface props {
+    count: number,
     page: number,
     setPage: React.Dispatch<React.SetStateAction<number>>
     setPrev: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Pagination = ({page, setPage, setPrev}: props) => {
+const Pagination = ({count, page, setPage, setPrev}: props) => {
     return (
         <div
             className="inline-flex items-center justify-center rounded bg-blue-600 py-1 text-white"
         >
-            <button
+            {page !== 1 && <button
                 onClick={() => {if (page != 1) {setPage(page-1); setPrev(true)}}}
                 className="inline-flex h-8 w-8 items-center justify-center rtl:rotate-180"
                 disabled={page == 1}
@@ -156,7 +157,7 @@ const Pagination = ({page, setPage, setPrev}: props) => {
                         clipRule="evenodd"
                     />
                 </svg>
-            </button>
+            </button>}
 
             <span className="h-4 w-px bg-white/25" aria-hidden="true"></span>
 
@@ -174,7 +175,7 @@ const Pagination = ({page, setPage, setPrev}: props) => {
 
             <span className="h-4 w-px bg-white/25"></span>
 
-            <button
+            {page*10 < count && <button
                 onClick={() => {setPage(page+1); setPrev(false)}}
                 className="inline-flex h-8 w-8 items-center justify-center rtl:rotate-180"
             >
@@ -191,7 +192,7 @@ const Pagination = ({page, setPage, setPrev}: props) => {
                         clipRule="evenodd"
                     />
                 </svg>
-            </button>
+            </button>}
         </div>
     )
 }
