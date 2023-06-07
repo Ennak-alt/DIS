@@ -21,6 +21,7 @@ export default function Page({ params, searchParams }) {
       <hr />
       <p className="text-lg font-bold relative mx-auto max-w-screen-xl px-24 pt-8 pb-2">Recommended cars:</p>
       <Recommended cars={data.rec}></Recommended>
+      <br/><br/><br/><br/><br/>
     </div>
   )
 }

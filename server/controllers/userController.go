@@ -182,7 +182,7 @@ func Register(c *gin.Context) {
 	password := c.PostForm("password")
 
 	names := strings.Split(name, " ")
-	fname, lname := names[len(names)-1], strings.Join(names[:len(names)-1], " ")
+	fname, lname := names[0], strings.Join(names[1:], " ")
 	pws := GenSalt()
 
 	hash := sha256.New()

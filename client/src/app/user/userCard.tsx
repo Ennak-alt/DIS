@@ -71,7 +71,7 @@ export default function UserCard(props: {uid: string, name: string, userRating?:
 
     let extra;
     if(props.own) {
-        extra = <ConditionalLink href={null} onClick={() => LoginService.Logout().then(router.refresh)}><span className="text-xs cursor-pointer">Log off</span></ConditionalLink>
+        extra = <ConditionalLink href={null} onClick={() => LoginService.Logout().then(router.refresh)}><span className="text-xs cursor-pointer">Log out</span></ConditionalLink>
     } else if(props.rating != undefined) {
         extra = <Rating rating={props.rating} numRatings={props.numRatings} userRating={props.userRating ?? -1} uid={props.uid}></Rating>
     }

@@ -68,23 +68,23 @@ export default function Page() {
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Registrer ny konto
+                            Register new account
                         </h1>
                         <form className="space-y-4 md:space-y-6" onSubmit={e => onSubmit(router, e, setColor)}>
                             <div>
-                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fuldt navn</label>
+                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full name</label>
                                 <input type="name" name="name" id="name" className={`bg-gray-50 border border-${namecolor}-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-${namecolor}-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`} placeholder="Lars Hurtigkarl" />
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">E-mail</label>
-                                <input type="email" name="email" id="email" className={`bg-gray-50 border border-${emailcolor}-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-${emailcolor}-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`} placeholder="lars@bilelsker.dk" />
+                                <input type="email" name="email" id="email" className={`bg-gray-50 border border-${emailcolor}-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-${emailcolor}-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`} placeholder="lars@carlover.com" />
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                                 <input type="password" name="password" id="password" placeholder="••••••••" className={`bg-gray-50 border border-${passwordcolor}-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-${passwordcolor}-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`} />
                             </div>
                             <div>
-                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gentag Password</label>
+                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Repeat Password</label>
                                 <input type="password" name="passwordr" id="passwordr" placeholder="••••••••" className={`bg-gray-50 border border-${passwordrcolor}-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-${passwordrcolor}-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`} />
                             </div>
                             <div className="flex items-center justify-between">
@@ -93,13 +93,13 @@ export default function Page() {
                                     <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
                                     </div>
                                     <div className="ml-3 text-sm">
-                                    <label className={`text-${acceptcolor}-500 dark:text-${acceptcolor}-300`}>Jeg accepterer privatlivspolitiken, og ved, at jeg foretager det aktive valg, at sælge min sjæl og min førstefødte til Berkild</label>
+                                    <label className={`text-${acceptcolor}-500 dark:text-${acceptcolor}-300`}>I accept the privacy policy, and know, that I am actively opting to sell my soul, and my firstborn to Berkild</label>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Registrer</button>
+                            <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Register</button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Har du allerede en konto? <Link href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Log ind</Link>
+                                Do you already have an account? <Link href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Log in</Link>
                             </p>
                         </form>
                     </div>
