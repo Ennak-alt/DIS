@@ -1,6 +1,8 @@
 import { Car, CarCategories } from '../api/carService';
 import React, { useState, useEffect } from 'react';
 interface props {
+    opencat: string
+    setOpenCat: React.Dispatch<React.SetStateAction<string>>
     cat: string,
     availablecats: string[],
     usedCats: CarCategories,
@@ -8,7 +10,7 @@ interface props {
 }
 
 
-export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}: props) => {
+export const Filter: React.FC<props> = ({opencat, setOpenCat, cat, availablecats, usedCats, setCats}: props) => {
     const reset = () => {
         setCats({...usedCats, [cat]: []})
     }
@@ -28,13 +30,13 @@ export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}:
 
     return (
     <div className="relative">
-        <details className="group [&_summary::-webkit-details-marker]:hidden">
             <summary
                 className="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600"
+                onClick={() => cat === opencat ? setOpenCat("") : setOpenCat(cat)}
             >
                 <span className="text-sm font-medium"> {cat} </span>
 
-                <span className="transition group-open:-rotate-180">
+                <span className={`transition ${cat === opencat && "rotate-180"}`}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -52,8 +54,9 @@ export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}:
                 </span>
             </summary>
 
-            <div
-                className="z-50 group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2"
+            {cat === opencat && <div
+                className="z-50 absolute start-0 top-auto mt-2"
+                key={cat}
             >
                 <div className="w-96 rounded border border-gray-200 bg-white">
                     <header className="flex items-center justify-between p-4">
@@ -67,7 +70,7 @@ export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}:
                         </button>
                     </header>
 
-                    <ul className="space-y-1 border-t border-gray-200 p-4">
+                    <ul className="space-y-1 border-t border-gray-200 p-4" key={cat}>
                         {availablecats.map((categoryName) => {
                             return (
                                 <li>
@@ -88,8 +91,7 @@ export const Filter: React.FC<props> = ({cat, availablecats, usedCats, setCats}:
                             })}
                     </ul>
                 </div>
-            </div>
-        </details>
+            </div>}
     </div>
     )
 }

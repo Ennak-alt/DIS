@@ -27,6 +27,7 @@ export default function Page() {
     const [page, setPage] = useState(1)
     const [prev, setPrev] = useState(false)
     const [searchSlider, setSearchSlider] = useState("")
+    const [openCat, setOpenCat] = useState("")
 
     useEffect(() => {
         console.log("changed")
@@ -92,6 +93,8 @@ export default function Page() {
                         return (
                             <div>
                                 <NumericFilter
+                                    opencat={openCat}
+                                    setOpenCat={setOpenCat}
                                     cat={value}
                                     usedCats={usedCategories}
                                     minValue = {allcategories[value+"From"] as number}
@@ -104,6 +107,8 @@ export default function Page() {
                     } else {
                         return (
                             <Filter
+                                opencat={openCat}
+                                setOpenCat={setOpenCat}
                                 cat={value}
                                 availablecats={allcategories[value] as string[]}
                                 usedCats={usedCategories}
