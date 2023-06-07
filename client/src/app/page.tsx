@@ -62,10 +62,11 @@ export default function Page() {
             console.log(cur1)
             console.log(acc1)
             if (cur1 === "price" || cur1 === "odometer" || cur1 === "cylinders") {
-                if (usedCategories[cur1+"To"] !== 0) {
-                    return acc1 + `${cur1}=${usedCategories[cur1+"From"]},${usedCategories[cur1+"To"]}&`
+                if (isNaN(usedCategories[cur1+"From"] as number) && isNaN(usedCategories[cur1+"To"] as number)) {
+                    return acc1 + ""
                 }
-                return acc1 + ""
+                return acc1 + `${cur1}=${usedCategories[cur1+"From"] as number},${usedCategories[cur1+"To"] as number}&`
+                
             }
             return (
                 acc1 + (usedCategories[cur1] as string[]).reduce((acc2, cur2) => {

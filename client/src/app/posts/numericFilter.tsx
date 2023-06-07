@@ -15,7 +15,7 @@ interface props {
 
 export const NumericFilter: React.FC<props> = ({ opencat, setOpenCat, cat, minValue, maxValue, usedCats, setCats, unit }: props) => {
     const reset = () => {
-        setCats({ ...usedCats, [`${cat}From`]: 0, [`${cat}To`]: 0 })
+        setCats({ ...usedCats, [`${cat}From`]: NaN, [`${cat}To`]: NaN })
     }
 
     const setMin = (min: number) => {
