@@ -45,15 +45,7 @@ export default function RootLayout({
                 </a>
 
                 <div className="flex flex-1 items-center justify-end md:justify-between">
-                <nav aria-label="Site Nav" className="hidden md:block">
-                    <ul className="flex items-center gap-6 text-sm">
-                    <li>
-                        <a className="text-gray-500 transition hover:text-gray-500/75" href="/posts">
-                        Browse cars
-                        </a>
-                    </li>
-                    </ul>
-                </nav>
+                <nav aria-label="Site Nav" className="hidden md:block"></nav>
 
                 <div className="flex items-center gap-4">
                     <NoSsr><CardOrLogin></CardOrLogin></NoSsr>
