@@ -47,9 +47,19 @@ func constructQuery(number int, queryStrings map[string][]string) (string, []any
 			if len(Range) != 2 {
 				continue
 			}
+			fmt.Println(Range[0])
+			fmt.Println(Range[1])
 			from, err1 := strconv.Atoi(Range[0])
 			to, err2 := strconv.Atoi(Range[1])
-			if err1 != nil || err2 != nil {
+			if err1 != nil && err2 == nil {
+				queryString += fmt.Sprintf(" %s <= $%d )", key, number)
+				number += 1
+				queryArguments = append(queryArguments, to)
+				continue
+			} else if err1 == nil && err2 != nil {
+				queryString += fmt.Sprintf(" $%d <= %s )", number, key)
+				number += 1
+				queryArguments = append(queryArguments, from)
 				continue
 			}
 			queryString += fmt.Sprintf(" $%d <= %s AND %s <= $%d )", number, key, key, number+1)
