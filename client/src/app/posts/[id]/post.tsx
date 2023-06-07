@@ -1,10 +1,10 @@
 import {Car} from "@/app/api/carService";
-import { UserData } from "@/app/api/userService";
+import { SellerData } from "@/app/api/userService";
 import UserCard from "@/app/user/userCard";
 import Image from 'next/image'
 import React, {useState} from 'react';
 
-export default function Post (props: {car: Car, seller: UserData}) {
+export default function Post (props: {car: Car, seller: SellerData}) {
     return (
         <div>
             <section>
@@ -17,7 +17,15 @@ export default function Post (props: {car: Car, seller: UserData}) {
                         src={`/Cars/${props.car.cartype}.jpeg`}
                     />
                     <div className="-ms-0.5 flex" style={{position: "relative"}}>
-                        <span style={{position: "absolute", left: "50%", transform: "translateX(-50%)"}}><UserCard {...props.seller} own={false} clickable={true}></UserCard></span>
+                        <span style={{height: "10em"}}></span>
+                        <span style={{position: "absolute", left: "50%", transform: "translateX(-50%)"}}><UserCard {...props.seller} own={false} clickable={true}>
+                            </UserCard><br/>
+                            <div>
+                                <span><b>Email:</b> {props.seller.email}</span><br/>
+                                <span><b>Phone:</b> {props.seller.phone}</span><br/>
+                                <span><b>Address:</b> {props.seller.address}</span>
+                            </div>
+                        </span>
                     </div>
                 </div>
                 <div className="sticky top-0">

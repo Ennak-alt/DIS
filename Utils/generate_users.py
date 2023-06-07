@@ -16,15 +16,14 @@ def random_salt(length = 32):
 
     return salt
 
+current_phone = 10000000
 def random_phone():
-    letters = string.digits
-    phone = ""
-    for i in range(random.randrange(8, 15)):
-        phone += random.choice(letters)
-
-    return phone
+    global current_phone
+    current_phone += random.randrange(5, 10)
+    return current_phone
 
 usersfile = open("./users.csv", "w")
+sellersfile = open("./sellers.csv", "w")
 ratingsfile = open("./ratings.csv", "w")
 carsfilelines = sum(1 for _ in open("./oldcars.csv", "r", encoding="utf8"))
 rateeId = 0
@@ -50,8 +49,7 @@ for i in range(NUM_USERS):
     # Contact info
     usersfile.write(fake.first_name() + ";")
     usersfile.write(fake.last_name() + ";")
-    usersfile.write(str(uid) + "@test.com;")
-    usersfile.write(random_phone() + "\n")
+    usersfile.write(str(uid) + "@test.com\n")
 
     # Ratings
     if rateeId != 0 and random.randrange(5) < 3:
@@ -59,8 +57,12 @@ for i in range(NUM_USERS):
         max_rating = int(str(rateeId)[-1]) % 3 + 3
         ratingsfile.write("%d;%d;%d\n" % (uid, rateeId, random.randrange(min_rating, max_rating)))
 
+    # Sellers
     if random.randrange(10) == 0:
         rateeId = uid
+        sellersfile.write("%d;" % uid)
+        sellersfile.write(fake.address().replace('\n', ' ') + ";")
+        sellersfile.write("%d\n" % random_phone())
         while len(sellers) < carsfilelines and random.randrange(3) < 2:
             sellers.append(uid)
 

@@ -44,6 +44,10 @@ func CreateApiRoutes(port int) {
 		ur.GET("/:id", controllers.GetUser)
 		ur.POST("/:id/ratings", controllers.AddRating)
 	}
+	sr := r.Group("/sellers")
+	{
+		sr.GET("/:id", controllers.GetSeller)
+	}
 	r.POST("/login", controllers.Login)
 	r.POST("/register", controllers.Register)
 	r.POST("/logout", controllers.Logout)

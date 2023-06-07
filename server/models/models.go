@@ -35,15 +35,36 @@ type User struct {
 	Password_salt string `json:"-"` // Salt
 	Password_hash string `json:"-"` // SHA-256 hash
 
-	// Contact info
+	// Info
 	First_name string `json:"fname"`
 	Last_name  string `json:"lname"`
 	Email      string `json:"email"`
-	Phone      string `json:"phone"`
 
 	// Meta
 	Rating      float32 `json:"rating"`
 	Num_ratings uint32  `json:"numRatings"`
+}
+
+type Seller struct {
+	// User ID
+	UID int64 `json:"uid"` // Snowflake
+
+	// Password
+	Password_salt string `json:"-"` // Salt
+	Password_hash string `json:"-"` // SHA-256 hash
+
+	// Info
+	First_name string `json:"fname"`
+	Last_name  string `json:"lname"`
+	Email      string `json:"email"`
+
+	// Meta
+	Rating      float32 `json:"rating"`
+	Num_ratings uint32  `json:"numRatings"`
+	
+	// Contact info
+	Address string `json:"address"`
+	Phone   string `json:"phone"`
 }
 
 type Categories struct {

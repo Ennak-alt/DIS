@@ -4,10 +4,14 @@ export interface UserData {
     uid: string,
     name: string,
     email: string,
-    phone: string,
     rating: number,
     numRatings: number,
     userRating?: number,
+}
+
+export interface SellerData extends UserData {
+    address: string,
+    phone: string,
 }
 
 export default class UserService {
@@ -15,10 +19,16 @@ export default class UserService {
         uid: "",
         name: "",
         email: "",
-        phone: "",
         rating: -1,
         numRatings: 0,
         userRating: -1,
+    }
+    
+    static readonly DefaultSeller: SellerData = {
+        ...UserService.DefaultUser,
+
+        address: "",
+        phone: "",
     }
 
     public static async GetUser(uid: string): Promise<UserData> {
@@ -30,6 +40,16 @@ export default class UserService {
             headers
         }).then(res => res.json());
     }
+    public static async GetSeller(uid: string): Promise<SellerData> {
+        const userdata = LoginService.GetLoginData();
+        const headers = userdata ? { "Token": userdata.token } : undefined;
+        
+        return await fetch("http://localhost:8088/sellers/" + uid, {
+            method: 'get',
+            headers
+        }).then(res => res.json());
+    }
+
     public static async SetRating(uid: string, rating: number) {
         const userdata = LoginService.GetLoginData();
         if(userdata == null) return false;

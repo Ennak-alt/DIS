@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS ratings;
+DROP TABLE IF EXISTS sellers;
 DROP TABLE IF EXISTS users;
 
 -------- User --------
@@ -11,11 +12,10 @@ CREATE TABLE users (
     pws VARCHAR(32), -- Salt
     pwh VARCHAR(64), -- SHA-256 hash
 
-    -- Contact info
+    -- Info
     fname VARCHAR(160),
     lname VARCHAR(40),
     email VARCHAR(100),
-    phone VARCHAR(15), -- International standards allow up to 15 digits
 
     -- Unique constraints
     PRIMARY KEY (uid),
@@ -25,14 +25,32 @@ CREATE TABLE users (
 COPY users FROM usersfile DELIMITER ';';
 
 
+CREATE TABLE sellers (
+    -- User ID
+    uid BIGINT REFERENCES users(uid)
+                        ON UPDATE CASCADE
+                        ON DELETE CASCADE,
+
+    -- Contact info
+    address VARCHAR(160),
+    phone VARCHAR(15), -- International standards allow up to 15 digits
+
+    -- Unique constraints
+    PRIMARY KEY (uid),
+    CONSTRAINT AK_phone UNIQUE(phone)
+);
+
+COPY sellers FROM sellersfile DELIMITER ';';
+
+
 CREATE TABLE ratings (
     rater_id BIGINT REFERENCES users(uid)
-                 ON UPDATE CASCADE
-                 ON DELETE CASCADE,
+                        ON UPDATE CASCADE
+                        ON DELETE CASCADE,
 
     ratee_id BIGINT REFERENCES users(uid)
-                 ON UPDATE CASCADE
-                 ON DELETE CASCADE,
+                        ON UPDATE CASCADE
+                        ON DELETE CASCADE,
 
     rating INT,
     
@@ -68,8 +86,8 @@ CREATE TABLE post (
     posting_date VARCHAR(50),
     
     seller_id BIGINT REFERENCES users(uid)
-                 ON UPDATE CASCADE
-                 ON DELETE CASCADE,
+                        ON UPDATE CASCADE
+                        ON DELETE CASCADE,
 
     PRIMARY KEY (id),
     CONSTRAINT AK_idx UNIQUE(idx)
