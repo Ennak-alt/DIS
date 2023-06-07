@@ -87,7 +87,7 @@ export default function Page() {
 
     return (
         <div className='flex flex-col items-center gap-5 m-5'>
-            <div className='flex flex-row gap-5'>
+            <div className='grid grid-cols-4 gap-5 lg:grid-cols-10'>
                 {allcategories && categoryNames.map((value) => {
                     if (value === "price" || value === "odometer" || value === "cylinders") {
                         return (
@@ -118,7 +118,7 @@ export default function Page() {
                         })}
             </div>
             <p>{count == undefined ? "Loading..." : `Found ${count} cars`}</p>
-            <div className='grid grid-cols-1 md:grid-cols-2 place-content-center'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 place-content-center'>
                 {!Array.isArray(cars) || cars.length === 0 ? "" : cars.map((car) => <Card car={car} />)}
             </div>
             <Pagination page={page} setPage={setPage} setPrev={setPrev}/>

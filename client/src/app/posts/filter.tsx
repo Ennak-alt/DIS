@@ -58,7 +58,7 @@ export const Filter: React.FC<props> = ({opencat, setOpenCat, cat, availablecats
                 className="z-50 absolute start-0 top-auto mt-2"
                 key={cat}
             >
-                <div className="w-96 rounded border border-gray-200 bg-white">
+                <div className="rounded border border-gray-200 bg-white">
                     <header className="flex items-center justify-between p-4">
 
                         <button
