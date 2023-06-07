@@ -17,14 +17,31 @@ export default function Post (props: {car: Car, seller: SellerData}) {
                         src={`/Cars/${props.car.cartype}.jpeg`}
                     />
                     <div className="-ms-0.5 flex" style={{position: "relative"}}>
-                        <span style={{height: "10em"}}></span>
+                        {/* <span style={{height: "10em"}}></span> */}
                         <span style={{position: "absolute", left: "50%", transform: "translateX(-50%)"}}><UserCard {...props.seller} own={false} clickable={true}>
-                            </UserCard><br/>
-                            <div>
-                                <span><b>Email:</b> {props.seller.email}</span><br/>
-                                <span><b>Phone:</b> {props.seller.phone}</span><br/>
-                                <span><b>Address:</b> {props.seller.address}</span>
-                            </div>
+                            </UserCard>
+                            <table className="text-sm my-3">
+                                <tbody>
+                                <tr>
+                                    <td className="px-2 py-2 text-gray-500 font-semibold">Email</td>
+                                    <td className="px-2 py-2">{props.seller.email}</td>
+                                </tr>
+                                <tr>
+                                    <td className="px-2 py-2 text-gray-500 font-semibold">Phone</td>
+                                    <td className="px-2 py-2">{props.seller.phone}</td>
+                                </tr>
+                                <tr>
+                                    <td className="px-2 py-2 text-gray-500 font-semibold">Address</td>
+                                    <td className="px-2 py-2">{props.seller.address}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            {/* <div>
+                                <span><b>Email:</b><br/> {props.seller.email}</span><br/>
+                                <span><b>Phone:</b><br/> {props.seller.phone}</span><br/>
+                                <span><b>Address:</b><br/> {props.seller.address}</span>
+                            </div> */}
                         </span>
                     </div>
                 </div>
@@ -62,8 +79,8 @@ export default function Post (props: {car: Car, seller: SellerData}) {
 
 const Expand = ({desc}) => {
     let [expanded, setExpanded] = useState(true)
-    if (desc.length <= 210) return (<div>{desc}</div>)
-    let text = expanded ? desc.substring(0, 210) : desc
+    if (desc.length <= 310) return (<div>{desc}</div>)
+    let text = expanded ? desc.substring(0, 310) : desc
     return (
         <>
         <div>{text}...</div>
