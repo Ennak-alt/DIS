@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:15.3-alpine3.18
+    restart: always
+    volumes:
+       - ./setup.sql:/docker-entrypoint-initdb.d/init.sql:ro
+       - ./server/config:/app/config:ro
+
+    environment:
+      - POSTGRES_PASSWORD=38urqiwejofkslm8u3rijwfks9u38qroiwjafks98u32rhjwefnr3u28ejwfn
+
+  server:
+    build: ./server
+    restart: always
+
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=dis
+
+      - DB_USERNAME=dis_user
+      - DB_PASSWORD=FvNe4D6ef8u7Rrfax6kRmdfSMu4N5b
+
+    ports:
+      - "8088:8088"
+    
+  client:
+    build: ./client
+    restart: always
+    ports:
+      - "3000:3000"
+
+#  adminer:
+#    image: adminer
+#    restart: always
+#    ports:
+#      - 8080:8080

@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Ennak-alt/DIS/server/config"
-	"github.com/Ennak-alt/DIS/server/models"
-	"github.com/Ennak-alt/DIS/server/repositories"
+	"github.com/Ennak-alt/DIS/config"
+	"github.com/Ennak-alt/DIS/models"
+	"github.com/Ennak-alt/DIS/repositories"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )

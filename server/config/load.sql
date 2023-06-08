@@ -85,7 +85,7 @@ CREATE TABLE post (
     carstate VARCHAR(50),
     posting_date VARCHAR(50),
     
-    seller_id BIGINT REFERENCES users(uid)
+    seller_id BIGINT REFERENCES sellers(uid)
                         ON UPDATE CASCADE
                         ON DELETE CASCADE,
 

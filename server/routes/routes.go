@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 
-	"github.com/Ennak-alt/DIS/server/controllers"
+	"github.com/Ennak-alt/DIS/controllers"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )

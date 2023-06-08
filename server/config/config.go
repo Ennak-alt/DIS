@@ -3,11 +3,12 @@ package config
 import (
 	"database/sql"
 	"fmt"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"strings"
-	"math/rand"
-    "time"
+	"time"
+
 	"github.com/bwmarrin/snowflake"
 
 	_ "github.com/lib/pq"
@@ -15,7 +16,7 @@ import (
 )
 
 var (
-	db *sql.DB
+	db   *sql.DB
 	node *snowflake.Node
 )
 
@@ -32,13 +33,12 @@ func Init() {
 }
 
 func ReadConfig() {
-	viper.SetConfigFile(".env")
-	viper.ReadInConfig()
+	viper.AutomaticEnv()
 }
 
 func ConnectDB() {
 	psqlInfo := fmt.Sprintf("host=%s port=%s dbname=%s "+
-	    "user=%s password=%s sslmode=disable",
+		"user=%s password=%s sslmode=disable",
 		viper.Get("DB_HOST"), viper.Get("DB_PORT"), viper.Get("DB_NAME"),
 		viper.Get("DB_USERNAME"), viper.Get("DB_PASSWORD"))
 
@@ -62,28 +62,28 @@ func ConnectDB() {
 }
 
 func SetupDB() {
-	b, err := os.ReadFile("./server/config/load.sql")
-    if err != nil {
-        fmt.Print(err)
-    }
+	b, err := os.ReadFile("./config/load.sql")
+	if err != nil {
+		fmt.Print(err)
+	}
 	str := string(b)
 
-	ex, _ := filepath.Abs("./server/config/cars.csv")
+	ex, _ := filepath.Abs("./config/cars.csv")
 	str2 := "'" + filepath.Dir(ex) + "/cars.csv" + "'"
 
 	str = strings.Replace(str, "carsfile", str2, 1)
 
-	ex_u, _ := filepath.Abs("./server/config/users.csv")
+	ex_u, _ := filepath.Abs("./config/users.csv")
 	str2_u := "'" + filepath.Dir(ex_u) + "/users.csv" + "'"
 
 	str = strings.Replace(str, "usersfile", str2_u, 1)
 
-	ex_s, _ := filepath.Abs("./server/config/sellers.csv")
+	ex_s, _ := filepath.Abs("./config/sellers.csv")
 	str2_s := "'" + filepath.Dir(ex_s) + "/sellers.csv" + "'"
 
 	str = strings.Replace(str, "sellersfile", str2_s, 1)
 
-	ex_r, _ := filepath.Abs("./server/config/ratings.csv")
+	ex_r, _ := filepath.Abs("./config/ratings.csv")
 	str2_r := "'" + filepath.Dir(ex_r) + "/ratings.csv" + "'"
 
 	str = strings.Replace(str, "ratingsfile", str2_r, 1)

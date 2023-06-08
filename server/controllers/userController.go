@@ -7,9 +7,9 @@ import (
 	"strings"
 	"math/rand"
 
-	"github.com/Ennak-alt/DIS/server/config"
-	"github.com/Ennak-alt/DIS/server/models"
-	"github.com/Ennak-alt/DIS/server/services"
+	"github.com/Ennak-alt/DIS/config"
+	"github.com/Ennak-alt/DIS/models"
+	"github.com/Ennak-alt/DIS/services"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
