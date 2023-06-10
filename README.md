@@ -1,5 +1,5 @@
 # E/R
-![image](ER.png)
+![image](ER2.png)
 
 # Initialization
 The website runs plug-and-play in Docker. All you have to do is go to the source directory and run ``docker-compose up``. The website can then be accessed on <http://localhost:3000/>, while the API runs on <http://localhost:8088/>.
