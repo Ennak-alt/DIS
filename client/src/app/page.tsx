@@ -80,7 +80,7 @@ export default function Page() {
             .then(response => response.json())
             .then(json => {
                 setCars(json["cars"])
-                setCount(json["count"])
+                setCount(json["count"] + (page-1)*10)
             })
             .catch(error => console.error(error));
         setCategoryChange(false)
